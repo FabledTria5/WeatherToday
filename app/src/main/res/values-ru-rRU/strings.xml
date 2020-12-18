@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Погода сегодня</string>
+    <string name="weather_description">Описание погоды</string>
+    <string name="weather_status_text">Статус погоды</string>
+    <string name="weather_location">Место погоды</string>
+    <string name="temperature_text">Температура</string>
+    <string name="day_of_week">День недели</string>
+</resources>
