@@ -6,4 +6,7 @@
     <string name="weather_location">Место погоды</string>
     <string name="temperature_text">Температура</string>
     <string name="day_of_week">День недели</string>
+    <string name="moisture">Влажность:</string>
+    <string name="pressure">Давление:</string>
+    <string name="wind">Скорость ветра:</string>
 </resources>

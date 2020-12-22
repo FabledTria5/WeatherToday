@@ -5,4 +5,7 @@
     <string name="weather_location">WeatherLocationText</string>
     <string name="temperature_text">TemperatureText</string>
     <string name="day_of_week">Day of week</string>
+    <string name="moisture">Moisture:</string>
+    <string name="pressure">Pressure:</string>
+    <string name="wind">Wind Speed:</string>
 </resources>
