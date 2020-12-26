@@ -58,12 +58,12 @@
             android:text="@string/weather_location"
             android:textColor="@color/white"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@id/tv_weather_now"
+            app:layout_constraintBottom_toTopOf="@id/tv_current_weather"
             app:layout_constraintEnd_toEndOf="@+id/iv_background"
             app:layout_constraintStart_toStartOf="@id/iv_background"/>
 
         <TextView
-            android:id="@+id/tv_weather_now"
+            android:id="@+id/tv_current_weather"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed-light"
@@ -100,14 +100,14 @@
             android:textColor="@color/white"
             android:textSize="17sp"
             app:layout_constraintEnd_toStartOf="@+id/tv_weather_pressure"
-            app:layout_constraintTop_toBottomOf="@+id/tv_weather_now" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_current_weather" />
 
         <TextView
             android:id="@+id/tv_weather_pressure_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed-light"
-            android:text="50"
+            android:text="0"
             android:textColor="@color/white"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="@+id/tv_weather_pressure"
@@ -124,9 +124,9 @@
             android:text="@string/pressure"
             android:textColor="@color/white"
             android:textSize="17sp"
-            app:layout_constraintEnd_toEndOf="@+id/tv_weather_now"
-            app:layout_constraintStart_toStartOf="@+id/tv_weather_now"
-            app:layout_constraintTop_toBottomOf="@+id/tv_weather_now" />
+            app:layout_constraintEnd_toEndOf="@+id/tv_current_weather"
+            app:layout_constraintStart_toStartOf="@+id/tv_current_weather"
+            app:layout_constraintTop_toBottomOf="@+id/tv_current_weather" />
 
         <TextView
             android:id="@+id/tv_weather_wind"
@@ -139,14 +139,14 @@
             android:textColor="@color/white"
             android:textSize="17sp"
             app:layout_constraintStart_toEndOf="@+id/tv_weather_pressure"
-            app:layout_constraintTop_toBottomOf="@+id/tv_weather_now" />
+            app:layout_constraintTop_toBottomOf="@+id/tv_current_weather" />
 
         <TextView
             android:id="@+id/tv_weather_wind_value"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed-light"
-            android:text="5"
+            android:text="0"
             android:textColor="@color/white"
             android:textSize="15sp"
             app:layout_constraintEnd_toEndOf="@+id/tv_weather_wind"
