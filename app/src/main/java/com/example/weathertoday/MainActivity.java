@@ -3,7 +3,6 @@ package com.example.weathertoday;
 import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
         Toast.makeText(this, "onCreate method", Toast.LENGTH_SHORT).show();
 
         findViews();
+        generateData();
     }
 
     @Override
@@ -82,13 +82,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void findViews() {
-        currentWeather = findViewById(R.id.tv_current_weather);
-        moisture = findViewById(R.id.tv_weather_moisture_value);
-        pressure = findViewById(R.id.tv_weather_pressure_value);
-        windSpeed = findViewById(R.id.tv_weather_wind_value);
+        currentWeather = findViewById(R.id.currentWeatherView);
+        moisture = findViewById(R.id.weatherMoistureValueView);
+        pressure = findViewById(R.id.weatherPressureValueView);
+        windSpeed = findViewById(R.id.windSpeedValueView);
     }
 
-    public void generateData(View view) {
+    private void generateData() {
 
         String currentWeatherValue = (int) (Math.random() * 20) + currentWeatherPostfix;
         String moistureValue = String.valueOf((int) (Math.random() * 100));

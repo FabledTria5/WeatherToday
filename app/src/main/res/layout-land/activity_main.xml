@@ -10,7 +10,7 @@
         android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/iv_background"
+            android:id="@+id/backgroundView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
@@ -19,16 +19,16 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <ImageView
-            android:id="@+id/iv_options"
+            android:id="@+id/optionsButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
             android:src="@drawable/ic_settings"
-            app:layout_constraintEnd_toEndOf="@+id/iv_background"
-            app:layout_constraintTop_toTopOf="@+id/iv_background" />
+            app:layout_constraintEnd_toEndOf="@+id/backgroundView"
+            app:layout_constraintTop_toTopOf="@+id/backgroundView" />
 
         <ImageView
-            android:id="@+id/iv_menu"
+            android:id="@+id/menuButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
@@ -37,7 +37,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
-            android:id="@+id/tv_weather_status"
+            android:id="@+id/weatherStatusView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed-light"
@@ -46,7 +46,7 @@
             android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/tv_weather_city"
-            app:layout_constraintEnd_toEndOf="@+id/iv_background"
+            app:layout_constraintEnd_toEndOf="@+id/backgroundView"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
@@ -58,12 +58,12 @@
             android:text="@string/weather_location"
             android:textColor="@color/white"
             android:textSize="20sp"
-            app:layout_constraintBottom_toTopOf="@id/tv_current_weather"
-            app:layout_constraintEnd_toEndOf="@+id/iv_background"
-            app:layout_constraintStart_toStartOf="@id/iv_background"/>
+            app:layout_constraintBottom_toTopOf="@id/currentWeatherView"
+            app:layout_constraintEnd_toEndOf="@+id/backgroundView"
+            app:layout_constraintStart_toStartOf="@id/backgroundView"/>
 
         <TextView
-            android:id="@+id/tv_current_weather"
+            android:id="@+id/currentWeatherView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed-light"
@@ -71,26 +71,26 @@
             android:textColor="@color/white"
             android:textSize="40sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@id/iv_background"
-            app:layout_constraintEnd_toEndOf="@+id/iv_background"
-            app:layout_constraintStart_toStartOf="@id/iv_background"
-            app:layout_constraintTop_toTopOf="@id/iv_background" />
+            app:layout_constraintBottom_toBottomOf="@id/backgroundView"
+            app:layout_constraintEnd_toEndOf="@+id/backgroundView"
+            app:layout_constraintStart_toStartOf="@id/backgroundView"
+            app:layout_constraintTop_toTopOf="@id/backgroundView" />
 
         <TextView
-            android:id="@+id/tv_weather_moisture_value"
+            android:id="@+id/weatherMoistureValueView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed-light"
             android:text="0"
             android:textColor="@color/white"
             android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="@+id/tv_weather_moisture"
-            app:layout_constraintStart_toStartOf="@+id/tv_weather_moisture"
-            app:layout_constraintTop_toBottomOf="@+id/tv_weather_moisture"
+            app:layout_constraintEnd_toEndOf="@+id/weatherMoistureView"
+            app:layout_constraintStart_toStartOf="@+id/weatherMoistureView"
+            app:layout_constraintTop_toBottomOf="@+id/weatherMoistureView"
             tools:ignore="HardcodedText"/>
 
         <TextView
-            android:id="@+id/tv_weather_moisture"
+            android:id="@+id/weatherMoistureView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -99,24 +99,24 @@
             android:text="@string/moisture"
             android:textColor="@color/white"
             android:textSize="17sp"
-            app:layout_constraintEnd_toStartOf="@+id/tv_weather_pressure"
-            app:layout_constraintTop_toBottomOf="@+id/tv_current_weather" />
+            app:layout_constraintEnd_toStartOf="@+id/weatherPressureView"
+            app:layout_constraintTop_toBottomOf="@+id/currentWeatherView" />
 
         <TextView
-            android:id="@+id/tv_weather_pressure_value"
+            android:id="@+id/weatherPressureValueView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed-light"
             android:text="0"
             android:textColor="@color/white"
             android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="@+id/tv_weather_pressure"
-            app:layout_constraintStart_toStartOf="@+id/tv_weather_pressure"
-            app:layout_constraintTop_toBottomOf="@+id/tv_weather_pressure"
+            app:layout_constraintEnd_toEndOf="@+id/weatherPressureView"
+            app:layout_constraintStart_toStartOf="@+id/weatherPressureView"
+            app:layout_constraintTop_toBottomOf="@+id/weatherPressureView"
             tools:ignore="HardcodedText"/>
 
         <TextView
-            android:id="@+id/tv_weather_pressure"
+            android:id="@+id/weatherPressureView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
@@ -124,12 +124,12 @@
             android:text="@string/pressure"
             android:textColor="@color/white"
             android:textSize="17sp"
-            app:layout_constraintEnd_toEndOf="@+id/tv_current_weather"
-            app:layout_constraintStart_toStartOf="@+id/tv_current_weather"
-            app:layout_constraintTop_toBottomOf="@+id/tv_current_weather" />
+            app:layout_constraintEnd_toEndOf="@+id/currentWeatherView"
+            app:layout_constraintStart_toStartOf="@+id/currentWeatherView"
+            app:layout_constraintTop_toBottomOf="@+id/currentWeatherView" />
 
         <TextView
-            android:id="@+id/tv_weather_wind"
+            android:id="@+id/windSpeedView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
@@ -138,26 +138,26 @@
             android:text="@string/wind"
             android:textColor="@color/white"
             android:textSize="17sp"
-            app:layout_constraintStart_toEndOf="@+id/tv_weather_pressure"
-            app:layout_constraintTop_toBottomOf="@+id/tv_current_weather" />
+            app:layout_constraintStart_toEndOf="@+id/weatherPressureView"
+            app:layout_constraintTop_toBottomOf="@+id/currentWeatherView" />
 
         <TextView
-            android:id="@+id/tv_weather_wind_value"
+            android:id="@+id/windSpeedValueView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:fontFamily="sans-serif-condensed-light"
             android:text="0"
             android:textColor="@color/white"
             android:textSize="15sp"
-            app:layout_constraintEnd_toEndOf="@+id/tv_weather_wind"
-            app:layout_constraintStart_toStartOf="@+id/tv_weather_wind"
-            app:layout_constraintTop_toBottomOf="@+id/tv_weather_wind"
+            app:layout_constraintEnd_toEndOf="@+id/windSpeedView"
+            app:layout_constraintStart_toStartOf="@+id/windSpeedView"
+            app:layout_constraintTop_toBottomOf="@+id/windSpeedView"
             tools:ignore="HardcodedText"/>
 
         <androidx.recyclerview.widget.RecyclerView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/iv_background" />
+            app:layout_constraintTop_toBottomOf="@id/backgroundView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
