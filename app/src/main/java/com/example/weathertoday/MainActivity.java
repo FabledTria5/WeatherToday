@@ -15,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView moisture;
     private TextView pressure;
     private TextView windSpeed;
-    private final String currentWeatherPostfix = "\u00B0"; // В будущем будет выбираться согласно пользовательким настройкам
+    private String currentWeatherPostfix = "\u00B0"; // В будущем будет выбираться согласно пользовательким настройкам
 
     private final String methodsLog = "Method info";
     private final String saveInstance = "Saved instance";
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         DataContainer savedContainer = (DataContainer) savedInstanceState.getSerializable(saveInstance);
-        setData(savedContainer.getCurrentWeatherValue(), savedContainer.getMoistureValue(), savedContainer.getPressureValue(), savedContainer.getWindSpeedValue());
+        if (savedContainer != null) setData(savedContainer.getCurrentWeatherValue(), savedContainer.getMoistureValue(), savedContainer.getPressureValue(), savedContainer.getWindSpeedValue());
     }
 
     private void findViews() {
