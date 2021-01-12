@@ -20,20 +20,33 @@
     <string name="temperature_units">Temperature units</string>
     <string name="pressure_units">Pressure units</string>
 
-    <string-array name="Languages">
+    <string-array name="languages">
         <item>English</item>
         <item>Russian</item>
     </string-array>
 
-    <string-array name="Temperature_units">
+    <string-array name="temperature_units">
         <item>C\u00B0</item>
         <item>F\u00B0</item>
     </string-array>
 
-    <string-array name="Pressure_units">
+    <string-array name="pressure_units">
         <item>Pa</item>
         <item>mm Hg</item>
         <item>atm</item>
+    </string-array>
+
+    <string-array name="topCities">
+        <item>New York</item>
+        <item>Los Angeles</item>
+        <item>London</item>
+        <item>Paris</item>
+        <item>Moscow</item>
+        <item>Beijing</item>
+        <item>Tokyo</item>
+        <item>Sydney</item>
+        <item>Dubai</item>
+        <item>Berlin</item>
     </string-array>
 
 
