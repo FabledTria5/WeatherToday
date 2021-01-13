@@ -19,6 +19,7 @@
     <string name="select_language">Select language:</string>
     <string name="temperature_units">Temperature units</string>
     <string name="pressure_units">Pressure units</string>
+    <string name="error_message">Error while receiving location data</string>
 
     <string-array name="languages">
         <item>English</item>
