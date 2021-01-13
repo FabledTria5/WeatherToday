@@ -1,6 +1,7 @@
 package com.example.weathertoday;
 
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import androidx.annotation.Nullable;
@@ -13,6 +14,7 @@ public class OptionsActivity extends AppCompatActivity {
     private Spinner languageSelector;
     private Spinner temperatureUnitsSelector;
     private Spinner pressureUnitsSelector;
+    private Button saveSettings;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -28,5 +30,6 @@ public class OptionsActivity extends AppCompatActivity {
         languageSelector = findViewById(R.id.selectLanguageView);
         temperatureUnitsSelector = findViewById(R.id.selectTemperatureUnitsView);
         pressureUnitsSelector = findViewById(R.id.selectPressureUnitsView);
+        saveSettings = findViewById(R.id.saveSettingsView);
     }
 }

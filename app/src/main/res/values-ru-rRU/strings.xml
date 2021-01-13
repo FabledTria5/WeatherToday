@@ -45,4 +45,5 @@
         <item>Дубай</item>
         <item>Берлин</item>
     </string-array>
+    <string name="save_settings">Сохранить</string>
 </resources>
