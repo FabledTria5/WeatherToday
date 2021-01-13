@@ -1,15 +1,15 @@
 package com.example.weathertoday;
 
-import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
-
-import com.google.android.material.appbar.MaterialToolbar;
 
 public class OptionsActivity extends AppCompatActivity {
 
@@ -17,7 +17,6 @@ public class OptionsActivity extends AppCompatActivity {
     private Spinner languageSelector;
     private Spinner temperatureUnitsSelector;
     private Spinner pressureUnitsSelector;
-    private MaterialToolbar toolbar;
     private Button saveSettings; // Будет сохранять пользовательские настройки
 
     @Override
@@ -26,19 +25,23 @@ public class OptionsActivity extends AppCompatActivity {
         setContentView(R.layout.options_layout);
 
         findViews();
-        setToolbar();
         themeSwitcher.setChecked(true);
+
+        ActionBar actionBar = getSupportActionBar();
+        actionBar.setHomeButtonEnabled(true);
+        actionBar.setDisplayHomeAsUpEnabled(true);
     }
 
-    private void setToolbar() {
-        setSupportActionBar(toolbar);
-
-        toolbar.setNavigationIcon(R.drawable.ic_baseline_arrow_back_24);
-        toolbar.setNavigationOnClickListener(v -> startActivity(new Intent(OptionsActivity.this, MainActivity.class)));
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            this.finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void findViews() {
-        toolbar = findViewById(R.id.toolbarView);
         themeSwitcher = findViewById(R.id.nightModeSwitchView);
         languageSelector = findViewById(R.id.selectLanguageView);
         temperatureUnitsSelector = findViewById(R.id.selectTemperatureUnitsView);

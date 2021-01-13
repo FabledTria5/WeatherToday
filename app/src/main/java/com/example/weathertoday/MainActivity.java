@@ -4,18 +4,17 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.material.appbar.MaterialToolbar;
 
 import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity {
 
-    private MaterialToolbar toolbar;
     private TextView currentLocation;
     private TextView temperature;
     private TextView moisture;
@@ -36,7 +35,6 @@ public class MainActivity extends AppCompatActivity {
 
         findViews();
         generateData();
-        setSupportActionBar(toolbar);
 
         findViewById(R.id.menuButton).setOnClickListener(v -> openMenu());
         findViewById(R.id.optionsButton).setOnClickListener(v -> openOptions());
@@ -70,7 +68,7 @@ public class MainActivity extends AppCompatActivity {
                 currentLocation.setText(location);
                 generateData();
             } else {
-                currentLocation.setText(getResources().getString(R.string.error_message));
+                Toast.makeText(this, getResources().getString(R.string.error_message), Toast.LENGTH_SHORT).show();
             }
         } else {
             super.onActivityResult(requestCode, resultCode, data);
@@ -78,7 +76,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void findViews() {
-        toolbar = findViewById(R.id.toolbarView);
         currentLocation = findViewById(R.id.weatherLocationView);
         temperature = findViewById(R.id.weatherTemperatureView);
         moisture = findViewById(R.id.weatherMoistureValueView);
