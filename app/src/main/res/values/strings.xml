@@ -8,7 +8,7 @@
     <string name="moisture">Moisture:</string>
     <string name="pressure">Pressure:</string>
     <string name="wind">Wind Speed:</string>
-    <string name="enter_city">Enter city</string>
+    <string name="enter_city">Enter city name</string>
     <string name="top_10_cities">Top 10 cities</string>
     <string name="cities">Cities</string>
     <string name="city_name">City name</string>
