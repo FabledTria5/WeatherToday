@@ -20,6 +20,7 @@ public class OptionsActivity extends AppCompatActivity {
         setContentView(R.layout.options_layout);
 
         findViews();
+        themeSwitcher.setChecked(true);
     }
 
     private void findViews() {
