@@ -8,7 +8,7 @@
     <string name="moisture">Moisture:</string>
     <string name="pressure">Pressure:</string>
     <string name="wind">Wind Speed:</string>
-    <string name="enter_city">Enter city</string>
+    <string name="enter_city">Enter city name</string>
     <string name="top_10_cities">Top 10 cities</string>
     <string name="cities">Cities</string>
     <string name="city_name">City name</string>
@@ -19,21 +19,43 @@
     <string name="select_language">Select language:</string>
     <string name="temperature_units">Temperature units</string>
     <string name="pressure_units">Pressure units</string>
+    <string name="error_message">Error while receiving location data</string>
+    <string name="save_settings">Save settings</string>
+    <string name="search_results">Results:</string>
+    <string name="speed_units">Speed units</string>
 
-    <string-array name="Languages">
+    <string-array name="languages">
         <item>English</item>
         <item>Russian</item>
     </string-array>
 
-    <string-array name="Temperature_units">
+    <string-array name="temperature_units">
         <item>C\u00B0</item>
         <item>F\u00B0</item>
     </string-array>
 
-    <string-array name="Pressure_units">
+    <string-array name="pressure_units">
         <item>Pa</item>
         <item>mm Hg</item>
         <item>atm</item>
+    </string-array>
+
+    <string-array name="wind_speed_units">
+        <item>m/s</item>
+        <item>mi/h</item>
+    </string-array>
+
+    <string-array name="topCities">
+        <item>New York</item>
+        <item>Los Angeles</item>
+        <item>London</item>
+        <item>Paris</item>
+        <item>Moscow</item>
+        <item>Beijing</item>
+        <item>Tokyo</item>
+        <item>Sydney</item>
+        <item>Dubai</item>
+        <item>Berlin</item>
     </string-array>
 
 
