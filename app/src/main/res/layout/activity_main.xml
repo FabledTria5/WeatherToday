@@ -60,8 +60,8 @@
             android:textSize="25sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/weatherLocationView"
-            app:layout_constraintEnd_toEndOf="@id/backgroundView"
-            app:layout_constraintStart_toStartOf="@id/backgroundView" />
+            app:layout_constraintEnd_toEndOf="@+id/weatherLocationView"
+            app:layout_constraintStart_toStartOf="@+id/weatherLocationView" />
 
         <TextView
             android:id="@+id/weatherLocationView"
@@ -73,8 +73,8 @@
             android:textColor="@color/white"
             android:textSize="23sp"
             app:layout_constraintBottom_toTopOf="@+id/weatherTemperatureView"
-            app:layout_constraintEnd_toEndOf="@id/backgroundView"
-            app:layout_constraintStart_toStartOf="@id/backgroundView" />
+            app:layout_constraintEnd_toEndOf="@+id/weatherTemperatureView"
+            app:layout_constraintStart_toStartOf="@+id/weatherTemperatureView" />
 
         <TextView
             android:id="@+id/weatherTemperatureView"
@@ -87,8 +87,8 @@
             android:textSize="40sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/backgroundView"
-            app:layout_constraintEnd_toEndOf="@id/backgroundView"
-            app:layout_constraintStart_toStartOf="@id/backgroundView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="@+id/backgroundView"
             app:layout_constraintTop_toTopOf="@id/backgroundView" />
 
         <TextView
@@ -108,14 +108,15 @@
             android:id="@+id/weatherMoistureView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="40dp"
+            android:layout_marginStart="20dp"
             android:layout_marginBottom="30dp"
             android:fontFamily="sans-serif-condensed-light"
             android:text="@string/moisture"
             android:textColor="@color/white"
             android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="@+id/backgroundView"
-            app:layout_constraintEnd_toStartOf="@+id/weatherPressureView"
+            app:layout_constraintEnd_toStartOf="@+id/weatherTemperatureView"
+            app:layout_constraintStart_toStartOf="@id/backgroundView"
             app:layout_constraintTop_toBottomOf="@+id/weatherTemperatureView" />
 
         <TextView
@@ -149,14 +150,15 @@
             android:id="@+id/windSpeedView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="40dp"
+            android:layout_marginEnd="5dp"
             android:layout_marginBottom="30dp"
             android:fontFamily="sans-serif-condensed-light"
             android:text="@string/wind"
             android:textColor="@color/white"
             android:textSize="17sp"
             app:layout_constraintBottom_toBottomOf="@+id/backgroundView"
-            app:layout_constraintStart_toEndOf="@+id/weatherPressureView"
+            app:layout_constraintEnd_toEndOf="@id/backgroundView"
+            app:layout_constraintStart_toEndOf="@+id/weatherTemperatureView"
             app:layout_constraintTop_toBottomOf="@+id/weatherTemperatureView" />
 
         <TextView

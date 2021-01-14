@@ -1,7 +1,11 @@
 package com.example.weathertoday;
 
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -10,16 +14,19 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weathertoday.adapters.CitiesListAdapter;
-import com.google.android.material.textfield.TextInputLayout;
+import com.google.android.material.textfield.TextInputEditText;
 
 import java.util.Arrays;
+import java.util.List;
 
 public class CityPickActivity extends AppCompatActivity {
 
-    private String[] topCities;
     private RecyclerView citiesList;
     private CitiesListAdapter adapter;
-    private TextInputLayout cityInputView;
+    private TextInputEditText citySearch;
+    private TextView topTen;
+
+    private List<String> topCities;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +39,12 @@ public class CityPickActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setHomeButtonEnabled(true);
         actionBar.setDisplayHomeAsUpEnabled(true);
+
+        citySearch.setOnFocusChangeListener((v, hasFocus) -> {
+            Toast toast = Toast.makeText(getApplicationContext(), "Search not yet available :(", Toast.LENGTH_SHORT);
+            toast.setGravity(Gravity.CENTER, 0,0);
+            toast.show();
+        });
     }
 
     @Override
@@ -44,16 +57,16 @@ public class CityPickActivity extends AppCompatActivity {
     }
 
     private void findViews() {
-        cityInputView = findViewById(R.id.cityInputView);
+        citySearch = findViewById(R.id.citySearchFieldView);
         citiesList = findViewById(R.id.citiesListView);
+        topTen = findViewById(R.id.topCitiesView);
     }
 
     private void initRecyclerView() {
-        topCities = getResources().getStringArray(R.array.topCities);
-
+        topCities = Arrays.asList(getResources().getStringArray(R.array.topCities));
         citiesList.setLayoutManager(new LinearLayoutManager(this));
         adapter = new CitiesListAdapter(CityPickActivity.this, this);
-        adapter.addItems(Arrays.asList(topCities));
+        adapter.addItems(topCities);
 
         citiesList.setAdapter(adapter);
     }
