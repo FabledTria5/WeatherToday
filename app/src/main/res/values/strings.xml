@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">Weather Today</string>
+    <string name="city_pick_fragment_name">Find city</string>
+    <string name="option_fragment_name">Options</string>
     <string name="weather_description">Weather Description</string>
     <string name="weather_status_text">WeatherStatusText</string>
     <string name="weather_location">WeatherLocationText</string>
@@ -17,12 +19,12 @@
     <string name="options">Options</string>
     <string name="app_theme">App theme:</string>
     <string name="select_language">Select language:</string>
-    <string name="temperature_units">Temperature units</string>
-    <string name="pressure_units">Pressure units</string>
+    <string name="temperature_units">Temperature units:</string>
+    <string name="pressure_units">Pressure units:</string>
     <string name="error_message">Error while receiving location data</string>
     <string name="save_settings">Save settings</string>
     <string name="search_results">Results:</string>
-    <string name="speed_units">Speed units</string>
+    <string name="speed_units">Speed units:</string>
 
     <string-array name="languages">
         <item>English</item>
