@@ -55,4 +55,5 @@
     <string name="speed_units">Ед. измер. скор-ти:</string>
     <string name="city_pick_fragment_name">Поиск города</string>
     <string name="option_fragment_name">Настройки</string>
+    <string name="select_theme">Выберите тему</string>
 </resources>
