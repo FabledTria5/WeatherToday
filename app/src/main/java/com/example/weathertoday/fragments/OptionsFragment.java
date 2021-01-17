@@ -1,11 +1,14 @@
 package com.example.weathertoday.fragments;
 
 import android.os.Bundle;
+import android.transition.AutoTransition;
+import android.transition.TransitionManager;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
@@ -13,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SwitchCompat;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
@@ -27,6 +31,11 @@ public class OptionsFragment extends Fragment {
     private Spinner temperatureUnitsSelector;
     private Spinner pressureUnitsSelector;
     private Spinner windSpeedUnitsSelector;
+    private ConstraintLayout appThemeLayout;
+    private ConstraintLayout languageLayout;
+    private ConstraintLayout temperatureLayout;
+    private ConstraintLayout pressureLayout;
+    private ConstraintLayout windSpeedLayout;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,6 +54,12 @@ public class OptionsFragment extends Fragment {
         ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
+
+        appThemeLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) appThemeLayout.getChildAt(2)));
+        languageLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) languageLayout.getChildAt(2)));
+        temperatureLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) temperatureLayout.getChildAt(2)));
+        pressureLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) pressureLayout.getChildAt(2)));
+        windSpeedLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) windSpeedLayout.getChildAt(2)));
     }
 
     @Override
@@ -61,6 +76,27 @@ public class OptionsFragment extends Fragment {
         temperatureUnitsSelector = v.findViewById(R.id.selectTemperatureUnitsView);
         pressureUnitsSelector = v.findViewById(R.id.selectPressureUnitsView);
         windSpeedUnitsSelector = v.findViewById(R.id.selectWindSpeedView);
+
+        appThemeLayout = v.findViewById(R.id.openAppTheme);
+        languageLayout = v.findViewById(R.id.openSelectLanguage);
+        temperatureLayout = v.findViewById(R.id.openSelectTemperature);
+        pressureLayout = v.findViewById(R.id.openSelectPressure);
+        windSpeedLayout = v.findViewById(R.id.openSelectWindSpeed);
+    }
+
+    private void openCloseExpandableLayout(ConstraintLayout layout) {
+        if (layout.getVisibility() == View.GONE) {
+            TransitionManager.beginDelayedTransition((ViewGroup) layout.getParent().getParent(), new AutoTransition());
+            layout.setVisibility(View.VISIBLE);
+            ConstraintLayout parent = (ConstraintLayout) layout.getParent();
+            ImageView arrow = (ImageView) parent.getChildAt(1);
+            arrow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
+        } else {
+            ConstraintLayout parent = (ConstraintLayout) layout.getParent();
+            ImageView arrow = (ImageView) parent.getChildAt(1);
+            arrow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
+            layout.setVisibility(View.GONE);
+        }
     }
 
     private void setupSpinners() {
