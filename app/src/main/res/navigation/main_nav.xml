@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main_nav"
+    app:startDestination="@id/mainFragment">
+
+    <fragment
+        android:id="@+id/mainFragment"
+        android:name="com.example.weathertoday.fragments.MainFragment"
+        android:label="fragment_main"
+        tools:layout="@layout/fragment_main" >
+        <action
+            android:id="@+id/navigateToCityPickFragment"
+            app:destination="@id/cityPickFragment"
+            app:enterAnim="@anim/enter_from_left"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <action
+            android:id="@+id/navigateToOptionsFragment"
+            app:destination="@id/optionsFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/nav_default_exit_anim" />
+        <argument
+            android:name="cityName"
+            app:argType="string"
+            android:defaultValue="WeatherLocationText" />
+    </fragment>
+    <fragment
+        android:id="@+id/cityPickFragment"
+        android:name="com.example.weathertoday.fragments.CityPickFragment"
+        android:label="fragment_city_pick"
+        tools:layout="@layout/fragment_city_pick" >
+        <action
+            android:id="@+id/navigateToMainFragmentFromCityPickFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@anim/enter_from_right"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popUpTo="@id/mainFragment"
+            app:popUpToInclusive="false" />
+    </fragment>
+    <fragment
+        android:id="@+id/optionsFragment"
+        android:name="com.example.weathertoday.fragments.OptionsFragment"
+        android:label="fragment_options"
+        tools:layout="@layout/fragment_options" >
+        <action
+            android:id="@+id/navigateToMainFragmentFromOptionsFragment"
+            app:destination="@id/mainFragment"
+            app:enterAnim="@anim/enter_from_left"
+            app:exitAnim="@anim/nav_default_exit_anim"
+            app:popUpTo="@id/mainFragment" />
+    </fragment>
+</navigation>

@@ -1,17 +1,15 @@
 package com.example.weathertoday.adapters;
 
-import android.app.Activity;
-import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.weathertoday.MainActivity;
+import com.example.weathertoday.fragments.CityPickFragmentDirections;
 import com.example.weathertoday.R;
 
 import java.util.ArrayList;
@@ -21,12 +19,11 @@ import java.util.List;
 public class CitiesListAdapter extends RecyclerView.Adapter<CitiesListAdapter.CitiesViewHolder> {
 
     private final List<String> citiesList = new ArrayList<>();
-    private final Context context;
-    private final Activity parent;
 
-    public CitiesListAdapter(Context applicationContext, Activity parent) {
-        this.context = applicationContext;
-        this.parent = parent;
+    private final View parentView;
+
+    public CitiesListAdapter(View parentView) {
+        this.parentView = parentView;
     }
 
     static class CitiesViewHolder extends RecyclerView.ViewHolder {
@@ -72,9 +69,8 @@ public class CitiesListAdapter extends RecyclerView.Adapter<CitiesListAdapter.Ci
     }
 
     private void openCity(int position) {
-        Intent intent = new Intent(context, MainActivity.class);
-        intent.putExtra(MainActivity.ACCESS_MESSAGE, citiesList.get(position));
-        parent.setResult(Activity.RESULT_OK, intent);
-        parent.finish();
+        CityPickFragmentDirections.NavigateToMainFragmentFromCityPickFragment action = CityPickFragmentDirections.navigateToMainFragmentFromCityPickFragment();
+        action.setCityName(citiesList.get(position));
+        Navigation.findNavController(parentView).navigate(action);
     }
 }
