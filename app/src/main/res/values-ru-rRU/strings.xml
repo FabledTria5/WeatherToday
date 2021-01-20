@@ -67,5 +67,6 @@
         <item>Пятница</item>
         <item>Суббота</item>
     </string-array>
+    <string name="history">История</string>
 
 </resources>

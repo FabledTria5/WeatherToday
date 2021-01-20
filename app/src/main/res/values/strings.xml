@@ -28,6 +28,7 @@
     <string name="select_theme">Select Theme:</string>
     <string name="weather_icon_description">Weather icon</string>
     <string name="weather_postfix" translatable="false">°</string>
+    <string name="history">History</string>
 
     <string-array name="languages">
         <item>English</item>
