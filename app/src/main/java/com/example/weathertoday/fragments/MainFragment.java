@@ -17,10 +17,15 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weathertoday.R;
 import com.example.weathertoday.WeatherDataContainer;
+import com.example.weathertoday.WeatherDays;
+import com.example.weathertoday.adapters.DaysAdapter;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class MainFragment extends Fragment {
@@ -30,9 +35,12 @@ public class MainFragment extends Fragment {
     private TextView moisture;
     private TextView pressure;
     private TextView windSpeed;
+    private RecyclerView daysList;
 
     private String currentWeatherPostfix = "\u00B0"; // В будущем будет выбираться согласно пользовательким настройкам
     private final String wikiUrl = "https://ru.wikipedia.org/wiki/";
+
+    DaysAdapter daysAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -52,6 +60,11 @@ public class MainFragment extends Fragment {
             WeatherDataContainer savedContainer = (WeatherDataContainer) savedInstanceState.getSerializable("Key");
             if (savedContainer != null)
                 setData(savedContainer.getCurrentLocation(), savedContainer.getTemperature(), savedContainer.getMoistureValue(), savedContainer.getPressureValue(), savedContainer.getWindSpeedValue());
+            if (savedInstanceState.getSerializable("WeekWeather") != null) {
+                initRecyclerView((ArrayList<WeatherDays>) savedInstanceState.getSerializable("WeekWeather"));
+            }
+        } else {
+            initRecyclerView(WeatherDays.getDays(8, requireActivity()));
         }
 
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
@@ -90,6 +103,7 @@ public class MainFragment extends Fragment {
                 moisture.getText().toString(),
                 pressure.getText().toString(),
                 windSpeed.getText().toString());
+        outState.putSerializable("WeekWeather", daysAdapter.getItems());
         outState.putSerializable("Key", container);
         super.onSaveInstanceState(outState);
     }
@@ -100,6 +114,7 @@ public class MainFragment extends Fragment {
         moisture = v.findViewById(R.id.weatherMoistureValueView);
         pressure = v.findViewById(R.id.weatherPressureValueView);
         windSpeed = v.findViewById(R.id.windSpeedValueView);
+        daysList = v.findViewById(R.id.daysListView);
     }
 
     private void generateData() {
@@ -121,6 +136,15 @@ public class MainFragment extends Fragment {
         moisture.setText(moistureValue);
         pressure.setText(pressureValue);
         windSpeed.setText(windSpeedValue);
+    }
+
+    private void initRecyclerView(ArrayList<WeatherDays> data) {
+        daysAdapter = new DaysAdapter();
+
+        daysAdapter.addItems(data);
+
+        daysList.setLayoutManager(new LinearLayoutManager(getContext()));
+        daysList.setAdapter(daysAdapter);
     }
 
     private void openLocationInfo() {

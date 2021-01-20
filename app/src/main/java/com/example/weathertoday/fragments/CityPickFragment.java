@@ -15,6 +15,7 @@ import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -75,6 +76,7 @@ public class CityPickFragment extends Fragment {
 
     private void initRecyclerView() {
         topCities = Arrays.asList(getResources().getStringArray(R.array.topCities));
+
         citiesList.setLayoutManager(new LinearLayoutManager(getContext()));
         adapter = new CitiesListAdapter(getView());
         adapter.addItems(topCities);
