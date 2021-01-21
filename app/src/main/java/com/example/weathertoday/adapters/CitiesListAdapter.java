@@ -6,11 +6,10 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.weathertoday.fragments.CityPickFragmentDirections;
 import com.example.weathertoday.R;
+import com.example.weathertoday.fragments.CityPickFragment;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,11 +18,10 @@ import java.util.List;
 public class CitiesListAdapter extends RecyclerView.Adapter<CitiesListAdapter.CitiesViewHolder> {
 
     private final List<String> citiesList = new ArrayList<>();
+    private final CityPickFragment parentContext;
 
-    private final View parentView;
-
-    public CitiesListAdapter(View parentView) {
-        this.parentView = parentView;
+    public CitiesListAdapter(CityPickFragment context) {
+        this.parentContext = context;
     }
 
     static class CitiesViewHolder extends RecyclerView.ViewHolder {
@@ -69,8 +67,6 @@ public class CitiesListAdapter extends RecyclerView.Adapter<CitiesListAdapter.Ci
     }
 
     private void openCity(int position) {
-        CityPickFragmentDirections.NavigateToMainFragmentFromCityPickFragment action = CityPickFragmentDirections.navigateToMainFragmentFromCityPickFragment();
-        action.setCityName(citiesList.get(position));
-        Navigation.findNavController(parentView).navigate(action);
+        parentContext.openCity(citiesList.get(position));
     }
 }
