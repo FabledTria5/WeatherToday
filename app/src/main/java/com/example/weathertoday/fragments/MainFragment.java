@@ -3,7 +3,6 @@ package com.example.weathertoday.fragments;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -35,10 +34,10 @@ public class MainFragment extends Fragment {
     private TextView moisture;
     private TextView pressure;
     private TextView windSpeed;
-    private RecyclerView daysList;
+    private RecyclerView daysRecyclerView;
 
     private String currentWeatherPostfix = "\u00B0"; // В будущем будет выбираться согласно пользовательким настройкам
-    private final String wikiUrl = "https://ru.wikipedia.org/wiki/";
+    private final String WIKI_URL = "https://ru.wikipedia.org/wiki/";
 
     DaysAdapter daysAdapter;
 
@@ -54,12 +53,14 @@ public class MainFragment extends Fragment {
         setRetainInstance(true);
 
         findViews(view);
-        generateData();
 
         if (savedInstanceState != null) {
             WeatherDataContainer savedContainer = (WeatherDataContainer) savedInstanceState.getSerializable("Key");
-            if (savedContainer != null)
+            if (savedContainer != null) {
                 setData(savedContainer.getCurrentLocation(), savedContainer.getTemperature(), savedContainer.getMoistureValue(), savedContainer.getPressureValue(), savedContainer.getWindSpeedValue());
+            } else {
+                generateData();
+            }
             if (savedInstanceState.getSerializable("WeekWeather") != null) {
                 initRecyclerView((ArrayList<WeatherDays>) savedInstanceState.getSerializable("WeekWeather"));
             }
@@ -114,7 +115,7 @@ public class MainFragment extends Fragment {
         moisture = v.findViewById(R.id.weatherMoistureValueView);
         pressure = v.findViewById(R.id.weatherPressureValueView);
         windSpeed = v.findViewById(R.id.windSpeedValueView);
-        daysList = v.findViewById(R.id.daysListView);
+        daysRecyclerView = v.findViewById(R.id.daysListView);
     }
 
     private void generateData() {
@@ -143,14 +144,14 @@ public class MainFragment extends Fragment {
 
         daysAdapter.addItems(data);
 
-        daysList.setLayoutManager(new LinearLayoutManager(getContext()));
-        daysList.setAdapter(daysAdapter);
+        daysRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        daysRecyclerView.setAdapter(daysAdapter);
     }
 
     private void openLocationInfo() {
         String target = currentLocation.getText().toString();
         if (!target.equals(getResources().getString(R.string.weather_location))) {
-            Uri uri = Uri.parse(wikiUrl + target);
+            Uri uri = Uri.parse(WIKI_URL + target);
             startActivity(new Intent(Intent.ACTION_VIEW, uri));
         }
     }

@@ -12,7 +12,6 @@ import android.widget.ImageView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
@@ -31,8 +30,8 @@ import java.util.Objects;
 
 public class CityPickFragment extends Fragment {
 
-    private RecyclerView citiesList;
-    private RecyclerView historyList;
+    private RecyclerView citiesRecyclerView;
+    private RecyclerView historyRecyclerView;
     private ConstraintLayout topCitiesLayout;
     private ConstraintLayout historyLayout;
     private CitiesListAdapter citiesListAdapter;
@@ -88,9 +87,9 @@ public class CityPickFragment extends Fragment {
     }
 
     private void findViews(View v) {
-        citiesList = v.findViewById(R.id.citiesListView);
+        citiesRecyclerView = v.findViewById(R.id.citiesListView);
         topTenArrowIcon = v.findViewById(R.id.topCitiesArrowIconView);
-        historyList = v.findViewById(R.id.historyListView);
+        historyRecyclerView = v.findViewById(R.id.historyListView);
         historyArrowIcon = v.findViewById(R.id.historyArrowIconView);
         topCitiesLayout = v.findViewById(R.id.topCitiesLayout);
         historyLayout = v.findViewById(R.id.historyLayout);
@@ -101,24 +100,31 @@ public class CityPickFragment extends Fragment {
         itemDecoration.setDrawable(Objects.requireNonNull(ContextCompat.getDrawable(requireContext(), R.drawable.separator)));
         topCities = Arrays.asList(getResources().getStringArray(R.array.topCities));
 
-        citiesList.setLayoutManager(new LinearLayoutManager(requireContext()));
-        historyList.setLayoutManager(new LinearLayoutManager(requireContext()));
+        citiesRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
+        historyRecyclerView.setLayoutManager(new LinearLayoutManager(requireContext()));
 
-        citiesListAdapter = new CitiesListAdapter(getView());
-        historyAdapter = new HistoryAdapter(getView());
+        citiesListAdapter = new CitiesListAdapter(this);
+        historyAdapter = new HistoryAdapter(this);
 
         citiesListAdapter.addItems(topCities);
-        citiesList.setAdapter(citiesListAdapter);
-        citiesList.addItemDecoration(itemDecoration);
-        historyList.setAdapter(historyAdapter);
-        historyList.addItemDecoration(itemDecoration);
+        citiesRecyclerView.setAdapter(citiesListAdapter);
+        citiesRecyclerView.addItemDecoration(itemDecoration);
+        historyRecyclerView.setAdapter(historyAdapter);
+        historyRecyclerView.addItemDecoration(itemDecoration);
     }
 
     private void closeViews() {
-        citiesList.setVisibility(View.GONE);
-        historyList.setVisibility(View.GONE);
+        citiesRecyclerView.setVisibility(View.GONE);
+        historyRecyclerView.setVisibility(View.GONE);
 
         topTenArrowIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_right_24);
         historyArrowIcon.setImageResource(R.drawable.ic_baseline_keyboard_arrow_right_24);
+    }
+
+    public void openCity(String cityName) {
+        HistoryAdapter.addHistoryCity(cityName);
+        CityPickFragmentDirections.NavigateToMainFragmentFromCityPickFragment action = CityPickFragmentDirections.navigateToMainFragmentFromCityPickFragment();
+        action.setCityName(cityName);
+        Navigation.findNavController(requireView()).navigate(action);
     }
 }

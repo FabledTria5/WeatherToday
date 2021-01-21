@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.weathertoday.fragments.CityPickFragment;
 import com.example.weathertoday.fragments.CityPickFragmentDirections;
 import com.example.weathertoday.R;
 
@@ -19,10 +20,10 @@ import java.util.List;
 public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryViewHolder> {
 
     private static final List<String> history = new ArrayList<>();
-    private final View parentView;
+    private final CityPickFragment parentContext;
 
-    public HistoryAdapter(View parentView) {
-        this.parentView = parentView;
+    public HistoryAdapter(CityPickFragment parentContext) {
+        this.parentContext = parentContext;
     }
 
     static class HistoryViewHolder extends RecyclerView.ViewHolder {
@@ -48,6 +49,8 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
     @Override
     public void onBindViewHolder(@NonNull HistoryViewHolder holder, int position) {
         holder.bind(history.get(position));
+
+        holder.itemView.setOnClickListener(v -> openCity(position));
     }
 
     @Override
@@ -58,5 +61,9 @@ public class HistoryAdapter extends RecyclerView.Adapter<HistoryAdapter.HistoryV
     public static void addHistoryCity(String city) {
         if (history.contains(city)) return;
         history.add(city);
+    }
+
+    private void openCity(int position) {
+        parentContext.openCity(history.get(position));
     }
 }
