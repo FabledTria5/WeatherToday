@@ -36,6 +36,7 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.DaysViewHolder
         private final TextView moistureDayValue;
         private final TextView pressureDayValue;
         private final TextView windSpeedDayValue;
+        private final TextView date;
 
         public DaysViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -50,6 +51,7 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.DaysViewHolder
             moistureDayValue = itemView.findViewById(R.id.moistureDayValue);
             pressureDayValue = itemView.findViewById(R.id.pressureDayView);
             windSpeedDayValue = itemView.findViewById(R.id.windSpeedDayView);
+            date = itemView.findViewById(R.id.dateView);
         }
 
         public void bind(int position) {
@@ -61,6 +63,7 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.DaysViewHolder
             moistureDayValue.setText(day.getMoisture());
             pressureDayValue.setText(day.getPressure());
             windSpeedDayValue.setText(day.getWindSpeed());
+            date.setText(day.getDate());
         }
 
         public void showHideDay() {
