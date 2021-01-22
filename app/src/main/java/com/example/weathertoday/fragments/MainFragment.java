@@ -3,6 +3,7 @@ package com.example.weathertoday.fragments;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -10,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -23,6 +25,8 @@ import com.example.weathertoday.R;
 import com.example.weathertoday.WeatherDataContainer;
 import com.example.weathertoday.WeatherDays;
 import com.example.weathertoday.adapters.DaysAdapter;
+import com.google.android.material.snackbar.BaseTransientBottomBar;
+import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Objects;
@@ -56,15 +60,12 @@ public class MainFragment extends Fragment {
 
         if (savedInstanceState != null) {
             WeatherDataContainer savedContainer = (WeatherDataContainer) savedInstanceState.getSerializable("Key");
-            if (savedContainer != null) {
+            if (savedContainer != null)
                 setData(savedContainer.getCurrentLocation(), savedContainer.getTemperature(), savedContainer.getMoistureValue(), savedContainer.getPressureValue(), savedContainer.getWindSpeedValue());
-            } else {
-                generateData();
-            }
-            if (savedInstanceState.getSerializable("WeekWeather") != null) {
+            if (savedInstanceState.getSerializable("WeekWeather") != null)
                 initRecyclerView((ArrayList<WeatherDays>) savedInstanceState.getSerializable("WeekWeather"));
-            }
         } else {
+            generateData();
             initRecyclerView(WeatherDays.getDays(8, requireActivity()));
         }
 
@@ -77,23 +78,31 @@ public class MainFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        MenuItem menuItem = menu.add(R.string.option_fragment_name);
-        menuItem.setIcon(R.drawable.ic_settings);
-        menuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        MenuItem optionsItem = menu.add(R.string.option_fragment_name);
+        MenuItem authorsItem = menu.add(R.string.developers);
+
+        optionsItem.setIcon(R.drawable.ic_settings);
+        authorsItem.setIcon(R.drawable.ic_writer);
+
+        optionsItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+        authorsItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+
+        optionsItem.setOnMenuItemClickListener(item -> {
+            Navigation.findNavController(requireView()).navigate(R.id.navigateToOptionsFragment);
+            return true;
+        });
+
+        authorsItem.setOnMenuItemClickListener(item -> {
+            Toast.makeText(requireContext(), "Not ready yet", Toast.LENGTH_SHORT).show();
+            return true;
+        });
         super.onCreateOptionsMenu(menu, inflater);
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-
-        switch (item.getItemId()) {
-            case 0:
-                Navigation.findNavController(requireView()).navigate(R.id.navigateToOptionsFragment);
-                break;
-            case android.R.id.home:
-                Navigation.findNavController(requireView()).navigate(R.id.navigateToCityPickFragment);
-                break;
-        }
+        if (item.getItemId() == android.R.id.home)
+            Navigation.findNavController(requireView()).navigate(R.id.navigateToCityPickFragment);
         return super.onOptionsItemSelected(item);
     }
 
@@ -151,8 +160,12 @@ public class MainFragment extends Fragment {
     private void openLocationInfo() {
         String target = currentLocation.getText().toString();
         if (!target.equals(getResources().getString(R.string.weather_location))) {
-            Uri uri = Uri.parse(WIKI_URL + target);
-            startActivity(new Intent(Intent.ACTION_VIEW, uri));
+            Snackbar.make(requireView(), R.string.open_in_browser, BaseTransientBottomBar.LENGTH_INDEFINITE).setAction(R.string.open, v -> {
+                Uri uri = Uri.parse(WIKI_URL + target);
+                startActivity(new Intent(Intent.ACTION_VIEW, uri));
+            }).show();
+        } else {
+            Toast.makeText(requireContext(), R.string.choose_city, Toast.LENGTH_SHORT).show();
         }
     }
 }

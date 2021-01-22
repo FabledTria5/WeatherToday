@@ -21,6 +21,7 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.weathertoday.R;
+import com.google.android.material.button.MaterialButton;
 
 import java.util.Objects;
 
@@ -36,6 +37,7 @@ public class OptionsFragment extends Fragment {
     private ConstraintLayout temperatureLayout;
     private ConstraintLayout pressureLayout;
     private ConstraintLayout windSpeedLayout;
+    private MaterialButton doneBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -60,6 +62,8 @@ public class OptionsFragment extends Fragment {
         temperatureLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) temperatureLayout.getChildAt(2)));
         pressureLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) pressureLayout.getChildAt(2)));
         windSpeedLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) windSpeedLayout.getChildAt(2)));
+
+        doneBtn.setOnClickListener(v -> Navigation.findNavController(requireView()).popBackStack());
     }
 
     @Override
@@ -82,6 +86,8 @@ public class OptionsFragment extends Fragment {
         temperatureLayout = v.findViewById(R.id.openSelectTemperature);
         pressureLayout = v.findViewById(R.id.openSelectPressure);
         windSpeedLayout = v.findViewById(R.id.openSelectWindSpeed);
+
+        doneBtn = v.findViewById(R.id.doneButtonView);
     }
 
     private void openCloseExpandableLayout(ConstraintLayout layout) {

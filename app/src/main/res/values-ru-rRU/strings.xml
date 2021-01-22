@@ -68,5 +68,11 @@
         <item>Суббота</item>
     </string-array>
     <string name="history">История</string>
+    <string name="done">Готово</string>
+    <string name="open_in_browser">Открыть в браузере?</string>
+    <string name="open">Открыть</string>
+    <string name="developers">Разработчики</string>
+    <string name="choose_city">Пожалуйста, выберите город</string>
+    <string name="date_text">Дата</string>
 
 </resources>
