@@ -1,6 +1,7 @@
 package com.example.weathertoday.fragments;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -10,6 +11,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,11 +35,14 @@ import java.util.Objects;
 
 public class MainFragment extends Fragment {
 
+    private ImageView backgroundImage;
     private TextView currentLocation;
+    private TextView weatherStatus;
     private TextView temperature;
     private TextView moisture;
     private TextView pressure;
     private TextView windSpeed;
+    private TextView dayOfWeek;
     private RecyclerView daysRecyclerView;
 
     private String currentWeatherPostfix = "\u00B0"; // В будущем будет выбираться согласно пользовательким настройкам
@@ -55,7 +60,6 @@ public class MainFragment extends Fragment {
         requireActivity().setTitle(getString(R.string.app_name));
         setHasOptionsMenu(true);
         setRetainInstance(true);
-
         findViews(view);
 
         if (savedInstanceState != null) {
@@ -119,12 +123,15 @@ public class MainFragment extends Fragment {
     }
 
     private void findViews(View v) {
+        backgroundImage = v.findViewById(R.id.backgroundView);
         currentLocation = v.findViewById(R.id.weatherLocationView);
+        weatherStatus = v.findViewById(R.id.weatherStatusView);
         temperature = v.findViewById(R.id.weatherTemperatureView);
         moisture = v.findViewById(R.id.weatherMoistureValueView);
         pressure = v.findViewById(R.id.weatherPressureValueView);
         windSpeed = v.findViewById(R.id.windSpeedValueView);
         daysRecyclerView = v.findViewById(R.id.daysListView);
+        dayOfWeek = v.findViewById(R.id.dayOfWeekView);
     }
 
     private void generateData() {
@@ -140,12 +147,32 @@ public class MainFragment extends Fragment {
     }
 
     private void setData(String currentLocationValue, String temperatureValue, String moistureValue, String pressureValue, String windSpeedValue) {
+        setBackground();
+        setDayOfWeek();
         if (currentLocation.getText().equals(getResources().getString(R.string.weather_location)))
             currentLocation.setText(currentLocationValue);
         temperature.setText(temperatureValue);
         moisture.setText(moistureValue);
         pressure.setText(pressureValue);
         windSpeed.setText(windSpeedValue);
+        weatherStatus.setText(getString(R.string.weather_status_example));
+    }
+
+    private void setDayOfWeek() {
+        dayOfWeek.setText(WeatherDays.getCurrentDayName());
+    }
+
+    private void setBackground() {
+        int nightModeFlag = requireContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+
+        switch (nightModeFlag) {
+            case Configuration.UI_MODE_NIGHT_NO:
+                backgroundImage.setImageResource(R.drawable.default_image_day);
+                break;
+            case Configuration.UI_MODE_NIGHT_YES:
+                backgroundImage.setImageResource(R.drawable.default_image_night);
+                break;
+        }
     }
 
     private void initRecyclerView(ArrayList<WeatherDays> data) {
@@ -160,7 +187,7 @@ public class MainFragment extends Fragment {
     private void openLocationInfo() {
         String target = currentLocation.getText().toString();
         if (!target.equals(getResources().getString(R.string.weather_location))) {
-            Snackbar.make(requireView(), R.string.open_in_browser, BaseTransientBottomBar.LENGTH_INDEFINITE).setAction(R.string.open, v -> {
+            Snackbar.make(requireView(), R.string.open_in_browser, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.open, v -> {
                 Uri uri = Uri.parse(WIKI_URL + target);
                 startActivity(new Intent(Intent.ACTION_VIEW, uri));
             }).show();

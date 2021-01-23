@@ -1,13 +1,17 @@
 package com.example.weathertoday.fragments;
 
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
@@ -15,6 +19,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
@@ -50,7 +55,7 @@ public class OptionsFragment extends Fragment {
         setHasOptionsMenu(true);
         findViews(view);
         setupSpinners();
-        themeSwitcher.setChecked(true);
+        setupThemeSwitcher();
 
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
         ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
@@ -64,6 +69,14 @@ public class OptionsFragment extends Fragment {
         windSpeedLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) windSpeedLayout.getChildAt(2)));
 
         doneBtn.setOnClickListener(v -> Navigation.findNavController(requireView()).popBackStack());
+
+        themeSwitcher.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+        });
     }
 
     @Override
@@ -121,6 +134,19 @@ public class OptionsFragment extends Fragment {
             temperatureUnitsSelector.setAdapter(temperatureAdapter);
             pressureUnitsSelector.setAdapter(pressureAdapter);
             windSpeedUnitsSelector.setAdapter(windSpeedAdapter);
+        }
+    }
+
+    private void setupThemeSwitcher() {
+        int nightModeFlag = requireContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+
+        switch (nightModeFlag) {
+            case Configuration.UI_MODE_NIGHT_NO:
+                themeSwitcher.setChecked(true);
+                break;
+            case Configuration.UI_MODE_NIGHT_YES:
+                themeSwitcher.setChecked(false);
+                break;
         }
     }
 }

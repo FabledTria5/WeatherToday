@@ -1,6 +1,6 @@
 package com.example.weathertoday.adapters;
 
-import android.app.Activity;
+import android.content.res.Resources;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;

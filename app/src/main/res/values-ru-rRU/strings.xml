@@ -74,5 +74,6 @@
     <string name="developers">Разработчики</string>
     <string name="choose_city">Пожалуйста, выберите город</string>
     <string name="date_text">Дата</string>
+    <string name="weather_status_example">Солнечно</string>
 
 </resources>

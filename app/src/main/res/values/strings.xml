@@ -35,6 +35,7 @@
     <string name="developers">Developers</string>
     <string name="choose_city">Please, choose the city</string>
     <string name="date_text">Date text</string>
+    <string name="weather_status_example">Sunny</string>
 
     <string-array name="languages">
         <item>English</item>
