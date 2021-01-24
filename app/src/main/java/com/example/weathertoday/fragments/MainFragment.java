@@ -1,9 +1,13 @@
 package com.example.weathertoday.fragments;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -11,12 +15,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -43,6 +49,7 @@ public class MainFragment extends Fragment {
     private TextView windSpeed;
     private TextView dayOfWeek;
     private RecyclerView daysRecyclerView;
+    private NestedScrollView nestedScrollView;
 
     private String currentWeatherPostfix = "\u00B0"; // В будущем будет выбираться согласно пользовательким настройкам
     private final String WIKI_URL = "https://ru.wikipedia.org/wiki/";
@@ -73,6 +80,10 @@ public class MainFragment extends Fragment {
         }
 
         view.findViewById(R.id.locationInfoView).setOnClickListener(v -> openLocationInfo());
+
+        if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            view.findViewById(R.id.btnDownView).setOnClickListener(v -> getDown());
+        }
     }
 
     @Override
@@ -134,6 +145,7 @@ public class MainFragment extends Fragment {
         windSpeed = v.findViewById(R.id.windSpeedValueView);
         daysRecyclerView = v.findViewById(R.id.daysListView);
         dayOfWeek = v.findViewById(R.id.dayOfWeekView);
+        nestedScrollView = v.findViewById(R.id.mainScrollView);
     }
 
     private void generateData() {
@@ -196,5 +208,21 @@ public class MainFragment extends Fragment {
         } else {
             Toast.makeText(requireContext(), R.string.choose_city, Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void getDown() {
+        nestedScrollView.post(() -> {
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
+            int height = displayMetrics.heightPixels;
+
+            int actionBarHeight = 0;
+            TypedValue tv = new TypedValue();
+            if (requireActivity().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
+                actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
+            }
+
+            nestedScrollView.smoothScrollTo(0, height - actionBarHeight);
+        });
     }
 }

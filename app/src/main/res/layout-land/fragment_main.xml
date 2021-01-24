@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".fragments.MainFragment">
+    tools:context=".fragments.MainFragment"
+    android:id="@+id/mainScrollView">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -159,6 +160,16 @@
             app:layout_constraintStart_toStartOf="@+id/windSpeedView"
             app:layout_constraintTop_toBottomOf="@+id/windSpeedView"
             tools:ignore="HardcodedText" />
+
+        <ImageView
+            android:id="@+id/btnDownView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/ic_round_arrow_down"
+            android:layout_marginBottom="40dp"
+            android:layout_marginEnd="20dp"
+            app:layout_constraintBottom_toBottomOf="@id/backgroundView"
+            app:layout_constraintEnd_toEndOf="@+id/backgroundView" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/daysListView"
