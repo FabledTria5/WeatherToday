@@ -30,5 +30,9 @@ public class OptionsContainer {
     public static ArrayList<ConstraintLayout> getVisibleLayouts() {
         return visibleLayouts;
     }
+
+    public static void clearVisibilitiesList() {
+        visibleLayouts.clear();
+    }
 }
 

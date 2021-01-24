@@ -57,9 +57,9 @@ public class MainFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         requireActivity().setTitle(getString(R.string.app_name));
-        setHasOptionsMenu(true);
         setRetainInstance(true);
         findViews(view);
+        setupMenu();
 
         if (savedInstanceState != null) {
             WeatherDataContainer savedContainer = (WeatherDataContainer) savedInstanceState.getSerializable("Key");
@@ -71,10 +71,6 @@ public class MainFragment extends Fragment {
             generateData();
             initRecyclerView(WeatherDays.getDays(8, requireActivity()));
         }
-
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_list);
 
         view.findViewById(R.id.locationInfoView).setOnClickListener(v -> openLocationInfo());
     }
@@ -96,7 +92,7 @@ public class MainFragment extends Fragment {
         });
 
         authorsItem.setOnMenuItemClickListener(item -> {
-            Toast.makeText(requireContext(), "Not ready yet", Toast.LENGTH_SHORT).show();
+            Navigation.findNavController(requireView()).navigate(R.id.navigateToDevelopersFragment);
             return true;
         });
         super.onCreateOptionsMenu(menu, inflater);
@@ -119,6 +115,13 @@ public class MainFragment extends Fragment {
         outState.putSerializable("WeekWeather", daysAdapter.getItems());
         outState.putSerializable("Key", container);
         super.onSaveInstanceState(outState);
+    }
+
+    private void setupMenu() {
+        setHasOptionsMenu(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_list);
     }
 
     private void findViews(View v) {

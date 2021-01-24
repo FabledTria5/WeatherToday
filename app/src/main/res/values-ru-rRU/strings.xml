@@ -75,5 +75,8 @@
     <string name="choose_city">Пожалуйста, выберите город</string>
     <string name="date_text">Дата</string>
     <string name="weather_status_example">Солнечно</string>
+    <string name="this_app_developed_by">Приложение разработано:</string>
+    <string name="developer_name">Алексей Рогатин (FabledTria5)</string>
+    <string name="special_thanks_to">Благодарности:</string>
 
 </resources>

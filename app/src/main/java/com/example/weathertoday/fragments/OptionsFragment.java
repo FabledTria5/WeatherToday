@@ -51,16 +51,11 @@ public class OptionsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         requireActivity().setTitle(R.string.option_fragment_name);
-        setHasOptionsMenu(true);
         findViews(view);
         setupLayouts(view);
         setupSpinners();
         setupThemeSwitcher();
-
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
-        ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
+        setupMenu();
 
         appThemeLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) appThemeLayout.getChildAt(2)));
         languageLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) languageLayout.getChildAt(2)));
@@ -68,7 +63,7 @@ public class OptionsFragment extends Fragment {
         pressureLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) pressureLayout.getChildAt(2)));
         windSpeedLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) windSpeedLayout.getChildAt(2)));
 
-        doneBtn.setOnClickListener(v -> Navigation.findNavController(requireView()).popBackStack());
+        doneBtn.setOnClickListener(v -> getBack());
 
         themeSwitcher.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (!isChecked) {
@@ -82,7 +77,7 @@ public class OptionsFragment extends Fragment {
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            Navigation.findNavController(requireView()).popBackStack();
+            getBack();
         }
         return true;
     }
@@ -102,6 +97,14 @@ public class OptionsFragment extends Fragment {
 
         doneBtn = v.findViewById(R.id.doneButtonView);
     }
+
+    private void setupMenu() {
+        setHasOptionsMenu(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
+    }
+
 
     private void setupLayouts(View v) {
         ArrayList<ConstraintLayout> list = OptionsContainer.getVisibleLayouts();
@@ -157,5 +160,10 @@ public class OptionsFragment extends Fragment {
                 themeSwitcher.setChecked(false);
                 break;
         }
+    }
+
+    private void getBack() {
+        OptionsContainer.clearVisibilitiesList();
+        Navigation.findNavController(requireView()).popBackStack();
     }
 }

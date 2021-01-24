@@ -14,16 +14,21 @@
             android:id="@+id/navigateToCityPickFragment"
             app:destination="@id/cityPickFragment"
             app:enterAnim="@anim/enter_from_left"
-            app:exitAnim="@anim/nav_default_exit_anim" />
+            app:exitAnim="@anim/fragment_fade_exit" />
         <action
             android:id="@+id/navigateToOptionsFragment"
             app:destination="@id/optionsFragment"
             app:enterAnim="@anim/enter_from_right"
-            app:exitAnim="@anim/nav_default_exit_anim" />
+            app:exitAnim="@anim/fragment_fade_exit" />
         <argument
             android:name="cityName"
             app:argType="string"
             android:defaultValue="WeatherLocationText" />
+        <action
+            android:id="@+id/navigateToDevelopersFragment"
+            app:destination="@id/developersFragment1"
+            app:enterAnim="@anim/enter_from_top"
+            app:exitAnim="@anim/fragment_fade_exit" />
     </fragment>
     <fragment
         android:id="@+id/cityPickFragment"
@@ -48,6 +53,16 @@
             app:destination="@id/mainFragment"
             app:enterAnim="@anim/enter_from_left"
             app:exitAnim="@anim/nav_default_exit_anim"
+            app:popUpTo="@id/mainFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/developersFragment1"
+        android:name="com.example.weathertoday.fragments.DevelopersFragment"
+        android:label="fragment_developers"
+        tools:layout="@layout/fragment_developers" >
+        <action
+            android:id="@+id/navigateToMainFragmentFromDevelopersFragment"
+            app:destination="@id/mainFragment"
             app:popUpTo="@id/mainFragment" />
     </fragment>
 </navigation>
