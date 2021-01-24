@@ -112,14 +112,14 @@ public class OptionsFragment extends Fragment {
 
     private void openCloseExpandableLayout(ConstraintLayout layout) {
         if (layout.getVisibility() == View.GONE) {
-            OptionsContainer.addVisible(layout);
+            OptionsContainer.addVisible(layout, layout.getTag());
             TransitionManager.beginDelayedTransition((ViewGroup) layout.getParent().getParent(), new AutoTransition());
             layout.setVisibility(View.VISIBLE);
             ConstraintLayout parent = (ConstraintLayout) layout.getParent();
             ImageView arrow = (ImageView) parent.getChildAt(1);
             arrow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
         } else {
-            OptionsContainer.removeVisible(layout);
+            OptionsContainer.removeVisible(layout.getTag());
             ConstraintLayout parent = (ConstraintLayout) layout.getParent();
             ImageView arrow = (ImageView) parent.getChildAt(1);
             arrow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
