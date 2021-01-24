@@ -1,4 +1,4 @@
-package com.example.weathertoday;
+package com.example.weathertoday.containers;
 
 import java.io.Serializable;
 

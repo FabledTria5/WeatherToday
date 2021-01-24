@@ -1,17 +1,14 @@
 package com.example.weathertoday.fragments;
 
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CompoundButton;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
@@ -26,8 +23,10 @@ import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.weathertoday.R;
+import com.example.weathertoday.containers.OptionsContainer;
 import com.google.android.material.button.MaterialButton;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class OptionsFragment extends Fragment {
@@ -54,6 +53,7 @@ public class OptionsFragment extends Fragment {
         requireActivity().setTitle(R.string.option_fragment_name);
         setHasOptionsMenu(true);
         findViews(view);
+        setupLayouts(view);
         setupSpinners();
         setupThemeSwitcher();
 
@@ -103,14 +103,23 @@ public class OptionsFragment extends Fragment {
         doneBtn = v.findViewById(R.id.doneButtonView);
     }
 
+    private void setupLayouts(View v) {
+        ArrayList<ConstraintLayout> list = OptionsContainer.getVisibleLayouts();
+        for (ConstraintLayout layout : list) {
+            v.findViewWithTag(layout.getTag()).setVisibility(View.VISIBLE);
+        }
+    }
+
     private void openCloseExpandableLayout(ConstraintLayout layout) {
         if (layout.getVisibility() == View.GONE) {
+            OptionsContainer.addVisible(layout);
             TransitionManager.beginDelayedTransition((ViewGroup) layout.getParent().getParent(), new AutoTransition());
             layout.setVisibility(View.VISIBLE);
             ConstraintLayout parent = (ConstraintLayout) layout.getParent();
             ImageView arrow = (ImageView) parent.getChildAt(1);
             arrow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
         } else {
+            OptionsContainer.removeVisible(layout);
             ConstraintLayout parent = (ConstraintLayout) layout.getParent();
             ImageView arrow = (ImageView) parent.getChildAt(1);
             arrow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
