@@ -197,7 +197,7 @@ public class MainFragment extends Fragment {
 
     private void openLocationInfo() {
         String target = currentLocation.getText().toString();
-        if (!target.equals(getResources().getString(R.string.weather_location))) {
+        if (!target.equals("WeatherLocationText")) {
             Snackbar.make(requireView(), R.string.open_in_browser, BaseTransientBottomBar.LENGTH_LONG).setAction(R.string.open, v -> {
                 Uri uri = Uri.parse(WIKI_URL + target);
                 startActivity(new Intent(Intent.ACTION_VIEW, uri));
