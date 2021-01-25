@@ -29,6 +29,19 @@
     <string name="weather_icon_description">Weather icon</string>
     <string name="weather_postfix" translatable="false">°</string>
     <string name="history">History</string>
+    <string name="done">Done</string>
+    <string name="open_in_browser">Open in browser?</string>
+    <string name="open">Open</string>
+    <string name="developers">Developers</string>
+    <string name="choose_city">Please, choose the city</string>
+    <string name="date_text">Date text</string>
+    <string name="weather_status_example">Sunny</string>
+    <string name="this_app_developed_by">This app developed by:</string>
+    <string name="developer_name">Alex Rogatin (FabledTria5)</string>
+    <string name="special_thanks_to">Special thanks to:</string>
+    <string name="geekbrains" translatable="false">GeekBrains</string>
+    <string name="developer_android_com" translatable="false">developer.android.com</string>
+    <string name="startandroid_ru" translatable="false">startandroid.ru</string>
 
     <string-array name="languages">
         <item>English</item>

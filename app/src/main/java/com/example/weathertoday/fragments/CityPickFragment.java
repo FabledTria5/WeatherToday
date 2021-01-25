@@ -49,13 +49,10 @@ public class CityPickFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         requireActivity().setTitle(R.string.city_pick_fragment_name);
-        setHasOptionsMenu(true);
         findViews(view);
         initRecyclerView();
 
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
+        setupMenu();
 
         topCitiesLayout.setOnClickListener(v -> openCloseList((RecyclerView) topCitiesLayout.getChildAt(2)));
         historyLayout.setOnClickListener(v -> openCloseList((RecyclerView) historyLayout.getChildAt(2)));
@@ -93,6 +90,13 @@ public class CityPickFragment extends Fragment {
         historyArrowIcon = v.findViewById(R.id.historyArrowIconView);
         topCitiesLayout = v.findViewById(R.id.topCitiesLayout);
         historyLayout = v.findViewById(R.id.historyLayout);
+    }
+
+    private void setupMenu() {
+        setHasOptionsMenu(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
     }
 
     private void initRecyclerView() {

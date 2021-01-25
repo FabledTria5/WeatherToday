@@ -68,5 +68,15 @@
         <item>Суббота</item>
     </string-array>
     <string name="history">История</string>
+    <string name="done">Готово</string>
+    <string name="open_in_browser">Открыть в браузере?</string>
+    <string name="open">Открыть</string>
+    <string name="developers">Разработчики</string>
+    <string name="choose_city">Пожалуйста, выберите город</string>
+    <string name="date_text">Дата</string>
+    <string name="weather_status_example">Солнечно</string>
+    <string name="this_app_developed_by">Приложение разработано:</string>
+    <string name="developer_name">Алексей Рогатин (FabledTria5)</string>
+    <string name="special_thanks_to">Благодарности:</string>
 
 </resources>

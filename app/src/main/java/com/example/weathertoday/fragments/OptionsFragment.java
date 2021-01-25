@@ -1,5 +1,6 @@
 package com.example.weathertoday.fragments;
 
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
@@ -15,13 +16,17 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.Navigation;
 
 import com.example.weathertoday.R;
+import com.example.weathertoday.containers.OptionsContainer;
+import com.google.android.material.button.MaterialButton;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 public class OptionsFragment extends Fragment {
@@ -36,6 +41,7 @@ public class OptionsFragment extends Fragment {
     private ConstraintLayout temperatureLayout;
     private ConstraintLayout pressureLayout;
     private ConstraintLayout windSpeedLayout;
+    private MaterialButton doneBtn;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -45,27 +51,33 @@ public class OptionsFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         requireActivity().setTitle(R.string.option_fragment_name);
-        setHasOptionsMenu(true);
         findViews(view);
+        setupLayouts(view);
         setupSpinners();
-        themeSwitcher.setChecked(true);
-
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
-        ActionBar actionBar = ((AppCompatActivity) requireActivity()).getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
+        setupThemeSwitcher();
+        setupMenu();
 
         appThemeLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) appThemeLayout.getChildAt(2)));
         languageLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) languageLayout.getChildAt(2)));
         temperatureLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) temperatureLayout.getChildAt(2)));
         pressureLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) pressureLayout.getChildAt(2)));
         windSpeedLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) windSpeedLayout.getChildAt(2)));
+
+        doneBtn.setOnClickListener(v -> getBack());
+
+        themeSwitcher.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (!isChecked) {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            } else {
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+            }
+        });
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            Navigation.findNavController(requireView()).popBackStack();
+            getBack();
         }
         return true;
     }
@@ -82,16 +94,35 @@ public class OptionsFragment extends Fragment {
         temperatureLayout = v.findViewById(R.id.openSelectTemperature);
         pressureLayout = v.findViewById(R.id.openSelectPressure);
         windSpeedLayout = v.findViewById(R.id.openSelectWindSpeed);
+
+        doneBtn = v.findViewById(R.id.doneButtonView);
+    }
+
+    private void setupMenu() {
+        setHasOptionsMenu(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
+    }
+
+
+    private void setupLayouts(View v) {
+        ArrayList<ConstraintLayout> list = OptionsContainer.getVisibleLayouts();
+        for (ConstraintLayout layout : list) {
+            v.findViewWithTag(layout.getTag()).setVisibility(View.VISIBLE);
+        }
     }
 
     private void openCloseExpandableLayout(ConstraintLayout layout) {
         if (layout.getVisibility() == View.GONE) {
+            OptionsContainer.addVisible(layout, layout.getTag());
             TransitionManager.beginDelayedTransition((ViewGroup) layout.getParent().getParent(), new AutoTransition());
             layout.setVisibility(View.VISIBLE);
             ConstraintLayout parent = (ConstraintLayout) layout.getParent();
             ImageView arrow = (ImageView) parent.getChildAt(1);
             arrow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_up_24);
         } else {
+            OptionsContainer.removeVisible(layout.getTag());
             ConstraintLayout parent = (ConstraintLayout) layout.getParent();
             ImageView arrow = (ImageView) parent.getChildAt(1);
             arrow.setImageResource(R.drawable.ic_baseline_keyboard_arrow_down_24);
@@ -116,5 +147,23 @@ public class OptionsFragment extends Fragment {
             pressureUnitsSelector.setAdapter(pressureAdapter);
             windSpeedUnitsSelector.setAdapter(windSpeedAdapter);
         }
+    }
+
+    private void setupThemeSwitcher() {
+        int nightModeFlag = requireContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+
+        switch (nightModeFlag) {
+            case Configuration.UI_MODE_NIGHT_NO:
+                themeSwitcher.setChecked(true);
+                break;
+            case Configuration.UI_MODE_NIGHT_YES:
+                themeSwitcher.setChecked(false);
+                break;
+        }
+    }
+
+    private void getBack() {
+        OptionsContainer.clearVisibilitiesList();
+        Navigation.findNavController(requireView()).popBackStack();
     }
 }

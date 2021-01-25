@@ -24,21 +24,44 @@
             android:layout_marginStart="10dp"
             android:contentDescription="@string/weather_icon_description"
             android:src="@drawable/ic_baseline_keyboard_arrow_right_24"
-            app:layout_constraintBottom_toTopOf="@+id/expandableDayView"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="@+id/linearLayout2" />
 
-        <TextView
-            android:id="@+id/dayNameView"
+        <LinearLayout
+            android:id="@+id/linearLayout2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="20dp"
-            android:text="@string/day_of_week"
-            android:textColor="@color/black"
-            android:textSize="15sp"
-            app:layout_constraintBottom_toTopOf="@+id/expandableDayView"
-            app:layout_constraintStart_toEndOf="@+id/dayArrowView"
-            app:layout_constraintTop_toTopOf="parent" />
+            android:layout_marginStart="5dp"
+            android:gravity="center"
+            android:orientation="vertical"
+            android:padding="10dp"
+            app:layout_constraintBottom_toTopOf="@id/expandableDayView"
+            app:layout_constraintStart_toEndOf="@id/dayArrowView"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/dayNameView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                style="@style/dayItemStrongText"
+                android:text="@string/day_of_week"
+                android:textSize="17sp"
+                app:layout_constraintBottom_toTopOf="@+id/expandableDayView"
+                app:layout_constraintStart_toEndOf="@+id/dayArrowView"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/dateView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/date_text"
+                android:textSize="14sp"
+                app:layout_constraintEnd_toEndOf="@+id/dayNameView"
+                app:layout_constraintStart_toStartOf="@id/dayNameView"
+                app:layout_constraintTop_toBottomOf="@id/dayNameView" />
+
+        </LinearLayout>
 
         <LinearLayout
             android:id="@+id/linearLayout"
@@ -47,16 +70,16 @@
             android:layout_marginEnd="45dp"
             android:gravity="center"
             android:orientation="vertical"
-            app:layout_constraintBottom_toBottomOf="@+id/dayNameView"
+            app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/dayNameView">
+            app:layout_constraintTop_toTopOf="@+id/linearLayout2">
 
             <TextView
                 android:id="@+id/dayTemperatureValueView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                style="@style/dayItemStrongText"
                 android:text="@string/temperature_text"
-                android:textColor="@color/black"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@+id/dayNameView" />
@@ -66,7 +89,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/weather_status_text"
-                android:textSize="11sp"
+                android:textSize="13sp"
                 app:layout_constraintTop_toBottomOf="@+id/dayNameView" />
 
         </LinearLayout>
@@ -107,7 +130,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="30dp"
                 android:text="@string/moisture"
-                android:textColor="@color/black"
+                style="@style/simpleText"
                 app:layout_constraintEnd_toStartOf="@+id/moistureDayValue"
                 app:layout_constraintTop_toTopOf="parent" />
 
@@ -117,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="15dp"
                 android:text="0"
-                android:textColor="@color/black"
+                style="@style/simpleText"
                 app:layout_constraintBottom_toBottomOf="@+id/textView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -138,7 +161,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/pressure"
-                android:textColor="@color/black"
+                style="@style/simpleText"
                 app:layout_constraintEnd_toEndOf="@+id/textView"
                 app:layout_constraintStart_toStartOf="@+id/textView"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -148,7 +171,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textColor="@color/black"
+                style="@style/simpleText"
                 app:layout_constraintBottom_toBottomOf="@+id/textView1"
                 app:layout_constraintEnd_toEndOf="@+id/moistureDayValue"
                 app:layout_constraintStart_toStartOf="@+id/moistureDayValue"
@@ -170,7 +193,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:text="@string/wind"
-                android:textColor="@color/black"
+                style="@style/simpleText"
                 app:layout_constraintEnd_toEndOf="@+id/textView"
                 app:layout_constraintStart_toStartOf="@+id/textView"
                 app:layout_constraintTop_toBottomOf="@+id/textView1" />
@@ -180,7 +203,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="0"
-                android:textColor="@color/black"
+                style="@style/simpleText"
                 app:layout_constraintBottom_toBottomOf="@+id/textView2"
                 app:layout_constraintEnd_toEndOf="@+id/moistureDayValue"
                 app:layout_constraintStart_toStartOf="@+id/moistureDayValue"
