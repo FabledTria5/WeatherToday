@@ -23,7 +23,7 @@
         <argument
             android:name="cityName"
             app:argType="string"
-            android:defaultValue="Moscow" />
+            android:defaultValue="DefaultString" />
         <action
             android:id="@+id/navigateToDevelopersFragment"
             app:destination="@id/developersFragment1"

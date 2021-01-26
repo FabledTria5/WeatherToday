@@ -25,13 +25,14 @@ public class WeatherGetter {
 
     private static final String REQUEST_FIRST_PART = "https://api.openweathermap.org/data/2.5/weather?q=";
     private static final String UNITS = "&units=metric";
+    private static final String LOCALE = "&lang=ru";
     private static final String API_KEY = "&appid=f5f6ea48efb1914ff6e0b2857c54af1d";
 
     public static void getWeather(String city, MainFragment parent) {
         try {
-            URL url = new URL(REQUEST_FIRST_PART + city + UNITS + API_KEY);
+            URL url = new URL(REQUEST_FIRST_PART + city + UNITS + LOCALE + API_KEY);
             Handler handler = new Handler(Looper.getMainLooper());
-            new Thread((Runnable) () -> {
+            new Thread(() -> {
                 HttpsURLConnection urlConnection;
                 try {
                     urlConnection = (HttpsURLConnection) url.openConnection();
@@ -40,6 +41,7 @@ public class WeatherGetter {
                     BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     String result = getLines(in);
 
+                    Log.d("123", result);
                     Gson gson = new Gson();
                     WeatherRequest weatherRequest = gson.fromJson(result, WeatherRequest.class);
                     handler.post(() -> parent.showWeather(weatherRequest));
