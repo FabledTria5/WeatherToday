@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -29,6 +31,8 @@ import com.example.weathertoday.R;
 import com.example.weathertoday.WeatherDays;
 import com.example.weathertoday.adapters.DaysAdapter;
 import com.example.weathertoday.containers.WeatherDataContainer;
+import com.example.weathertoday.network.WeatherGetter;
+import com.example.weathertoday.network.model.WeatherRequest;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -64,6 +68,10 @@ public class MainFragment extends Fragment {
         setRetainInstance(true);
         findViews(view);
         setupMenu();
+        setDayOfWeek();
+
+        MainFragmentArgs args = MainFragmentArgs.fromBundle(requireArguments());
+        String currentLocationValue = args.getCityName();
 
         if (savedInstanceState != null) {
             WeatherDataContainer savedContainer = (WeatherDataContainer) savedInstanceState.getSerializable("Key");
@@ -72,7 +80,7 @@ public class MainFragment extends Fragment {
             if (savedInstanceState.getSerializable("WeekWeather") != null)
                 initRecyclerView((ArrayList<WeatherDays>) savedInstanceState.getSerializable("WeekWeather"));
         } else {
-            generateData();
+            WeatherGetter.getWeather(currentLocationValue, this);
             initRecyclerView(WeatherDays.getDays(8, requireActivity()));
         }
 
@@ -145,18 +153,6 @@ public class MainFragment extends Fragment {
         nestedScrollView = v.findViewById(R.id.mainScrollView);
     }
 
-    private void generateData() {
-        MainFragmentArgs args = MainFragmentArgs.fromBundle(requireArguments());
-
-        String currentLocationValue = args.getCityName();
-        String temperatureValue = (int) (Math.random() * 25) + currentWeatherPostfix;
-        String moistureValue = String.valueOf((int) (Math.random() * 100));
-        String pressureValue = String.valueOf((int) (Math.random() * 100));
-        String windSpeedValue = String.valueOf((int) (Math.random() * 10));
-
-        setData(currentLocationValue, temperatureValue, moistureValue, pressureValue, windSpeedValue);
-    }
-
     private void setData(String currentLocationValue, String temperatureValue, String moistureValue, String pressureValue, String windSpeedValue) {
         setBackground();
         setDayOfWeek();
@@ -221,5 +217,14 @@ public class MainFragment extends Fragment {
 
             nestedScrollView.smoothScrollTo(0, height - actionBarHeight);
         });
+    }
+
+    public void showWeather(WeatherRequest request) {
+        currentLocation.setText(request.getName());
+        weatherStatus.setText(String.valueOf(request.getWeather()[0].getMain()));
+        temperature.setText(String.format("%.2f", request.getMain().getTemp()));
+        pressure.setText(String.format("%d", request.getMain().getPressure()));
+        windSpeed.setText(String.format("%.2f", request.getWind().getSpeed()));
+        moisture.setText(String.format("%d", request.getMain().getHumidity()));
     }
 }
