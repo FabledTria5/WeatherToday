@@ -254,4 +254,11 @@ public class MainFragment extends Fragment {
         daysRecyclerView.setAdapter(daysAdapter);
         progressBar.setVisibility(View.INVISIBLE);
     }
+
+    public void showError() {
+        Toast.makeText(requireContext(), "This city does not exist!", Toast.LENGTH_LONG).show();
+        currentLocationValue = Geolocation.getGeolocation(this, requireContext());
+        WeatherGetter.getWeather(currentLocationValue, this);
+        WeatherGetter.getWeatherForecast(currentLocationValue, this);
+    }
 }

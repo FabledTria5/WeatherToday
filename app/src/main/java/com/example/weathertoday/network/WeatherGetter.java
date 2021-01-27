@@ -51,7 +51,7 @@ public class WeatherGetter {
                     handler.post(() -> parent.showWeather(weatherRequest));
                     urlConnection.disconnect();
                 } catch (IOException e) {
-                    e.printStackTrace();
+                    handler.post(parent::showError);
                 }
             }).start();
         } catch (MalformedURLException e) {
