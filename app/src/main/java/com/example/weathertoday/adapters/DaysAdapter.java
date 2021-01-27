@@ -1,6 +1,5 @@
 package com.example.weathertoday.adapters;
 
-import android.content.res.Resources;
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
 import android.view.LayoutInflater;
@@ -15,13 +14,16 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.weathertoday.R;
 import com.example.weathertoday.WeatherDays;
+import com.example.weathertoday.network.model.WeatherRequest;
 
 import java.io.Serializable;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Locale;
 
 public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.DaysViewHolder> implements Serializable {
 
-    private ArrayList<WeatherDays> days = new ArrayList<>();
+    private ArrayList<WeatherRequest> days = new ArrayList<>();
 
     class DaysViewHolder extends RecyclerView.ViewHolder {
 
@@ -55,15 +57,24 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.DaysViewHolder
         }
 
         public void bind(int position) {
-            WeatherDays day = days.get(position);
+           WeatherRequest day = days.get(position);
 
-            dayOfWeek.setText(day.getDayOfWeek());
-            temperature.setText(day.getTemperature());
-            weatherStatus.setText(day.getWeatherStatus());
-            moistureDayValue.setText(day.getMoisture());
-            pressureDayValue.setText(day.getPressure());
-            windSpeedDayValue.setText(day.getWindSpeed());
-            date.setText(day.getDate());
+           temperature.setText(String.format(Locale.ENGLISH, "%.1f" + "\u00B0C", day.getMain().getTemp()));
+           pressureDayValue.setText(String.format(Locale.ENGLISH,"%d", day.getMain().getPressure()));
+           windSpeedDayValue.setText(String.format(Locale.ENGLISH,"%.1f", day.getWind().getSpeed()));
+           moistureDayValue.setText(String.format(Locale.ENGLISH,"%d", day.getMain().getHumidity()));
+
+            String weatherStatusValue = String.valueOf(day.getWeather()[0].getDescription());
+            weatherStatusValue = weatherStatusValue.substring(0, 1).toUpperCase() + weatherStatusValue.substring(1);
+            weatherStatus.setText(weatherStatusValue);
+
+            try {
+                dayOfWeek.setText(WeatherDays.getDayOfWeek(day.getDt_txt()));
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
+
+            date.setText(day.getDt_txt());
         }
 
         public void showHideDay() {
@@ -96,11 +107,11 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.DaysViewHolder
         return days.size();
     }
 
-    public void addItems(ArrayList<WeatherDays> arrayList) {
-        days.addAll(arrayList);
+    public void addItems(ArrayList<WeatherRequest> list) {
+        days.addAll(list);
     }
 
-    public ArrayList<WeatherDays> getItems() {
+    public ArrayList<WeatherRequest> getItems() {
         return days;
     }
 

@@ -35,7 +35,7 @@
             android:layout_marginStart="5dp"
             android:gravity="center"
             android:orientation="vertical"
-            android:padding="10dp"
+            android:padding="15dp"
             app:layout_constraintBottom_toTopOf="@id/expandableDayView"
             app:layout_constraintStart_toEndOf="@id/dayArrowView"
             app:layout_constraintTop_toTopOf="parent">
@@ -55,7 +55,9 @@
                 android:id="@+id/dateView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/date_text"
+                android:text="1993:21:12 14:00:00"
+                android:maxWidth="100dp"
+                android:textAlignment="center"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="@+id/dayNameView"
                 app:layout_constraintStart_toStartOf="@id/dayNameView"
@@ -67,18 +69,18 @@
             android:id="@+id/linearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="45dp"
             android:gravity="center"
             android:orientation="vertical"
             app:layout_constraintBottom_toBottomOf="@+id/linearLayout2"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/linearLayout2"
             app:layout_constraintTop_toTopOf="@+id/linearLayout2">
 
             <TextView
                 android:id="@+id/dayTemperatureValueView"
+                style="@style/dayItemStrongText"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                style="@style/dayItemStrongText"
                 android:text="@string/temperature_text"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -88,7 +90,9 @@
                 android:id="@+id/dayWeatherStatusView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:maxWidth="150dp"
                 android:text="@string/weather_status_text"
+                android:textAlignment="center"
                 android:textSize="13sp"
                 app:layout_constraintTop_toBottomOf="@+id/dayNameView" />
 

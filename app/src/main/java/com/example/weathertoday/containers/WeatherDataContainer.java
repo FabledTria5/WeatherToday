@@ -9,17 +9,19 @@ public class WeatherDataContainer implements Serializable {
     private final String moistureValue;
     private final String pressureValue;
     private final String windSpeedValue;
+    private final String status;
 
-    private WeatherDataContainer(String currentLocation, String temperature, String moistureValue, String pressureValue, String windSpeedValue) {
+    private WeatherDataContainer(String currentLocation, String temperature, String status, String moistureValue, String pressureValue, String windSpeedValue) {
         this.currentLocation = currentLocation;
         this.temperature = temperature;
         this.moistureValue = moistureValue;
         this.pressureValue = pressureValue;
         this.windSpeedValue = windSpeedValue;
+        this.status = status;
     }
 
-    public static WeatherDataContainer saveData(String currentLocation, String temperatureValue, String moistureValue, String pressureValue, String windSpeedValue) {
-        return new WeatherDataContainer(currentLocation, temperatureValue, moistureValue, pressureValue, windSpeedValue);
+    public static WeatherDataContainer saveData(String currentLocation, String temperatureValue, String status, String moistureValue, String pressureValue, String windSpeedValue) {
+        return new WeatherDataContainer(currentLocation, temperatureValue, status, moistureValue, pressureValue, windSpeedValue);
     }
 
     public String getCurrentLocation() {
@@ -40,5 +42,9 @@ public class WeatherDataContainer implements Serializable {
 
     public String getWindSpeedValue() {
         return windSpeedValue;
+    }
+
+    public String getStatus() {
+        return status;
     }
 }

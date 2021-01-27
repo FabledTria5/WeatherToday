@@ -1,6 +1,8 @@
 package com.example.weathertoday.network.model;
 
-public class Main {
+import java.io.Serializable;
+
+public class Main implements Serializable {
     private float temp;
     private int pressure;
     private int humidity;

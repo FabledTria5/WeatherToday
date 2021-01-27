@@ -1,12 +1,23 @@
 package com.example.weathertoday.network.model;
 
-public class WeatherRequest {
+import java.io.Serializable;
+
+public class WeatherRequest implements Serializable {
     private Coord coord;
     private Weather[] weather;
     private Main main;
     private Wind wind;
     private Clouds clouds;
     private String name;
+    private String dt_txt;
+
+    public String getDt_txt() {
+        return dt_txt;
+    }
+
+    public void setDt_txt(String dt_txt) {
+        this.dt_txt = dt_txt;
+    }
 
     public Coord getCoord() {
         return coord;
