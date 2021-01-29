@@ -1,6 +1,8 @@
 package com.example.weathertoday.fragments;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -13,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -25,10 +28,13 @@ import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.weathertoday.Geolocation;
 import com.example.weathertoday.R;
 import com.example.weathertoday.WeatherDays;
 import com.example.weathertoday.adapters.DaysAdapter;
 import com.example.weathertoday.containers.WeatherDataContainer;
+import com.example.weathertoday.network.WeatherGetter;
+import com.example.weathertoday.network.model.WeatherRequest;
 import com.google.android.material.snackbar.BaseTransientBottomBar;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -47,9 +53,11 @@ public class MainFragment extends Fragment {
     private TextView dayOfWeek;
     private RecyclerView daysRecyclerView;
     private NestedScrollView nestedScrollView;
+    private ProgressBar progressBar;
 
-    private String currentWeatherPostfix = "\u00B0"; // В будущем будет выбираться согласно пользовательким настройкам
+    private String currentWeatherPostfix = "\u00B0C"; // В будущем будет выбираться согласно пользовательким настройкам
     private final String WIKI_URL = "https://ru.wikipedia.org/wiki/";
+    private String currentLocationValue;
 
     DaysAdapter daysAdapter;
 
@@ -64,16 +72,25 @@ public class MainFragment extends Fragment {
         setRetainInstance(true);
         findViews(view);
         setupMenu();
+        setDayOfWeek();
+        setBackground();
+
+        MainFragmentArgs args = MainFragmentArgs.fromBundle(requireArguments());
+        currentLocationValue = args.getCityName();
+
+        if (currentLocationValue.equals("DefaultString")) {
+            currentLocationValue = Geolocation.getGeolocation(this, requireContext());
+        }
 
         if (savedInstanceState != null) {
             WeatherDataContainer savedContainer = (WeatherDataContainer) savedInstanceState.getSerializable("Key");
             if (savedContainer != null)
-                setData(savedContainer.getCurrentLocation(), savedContainer.getTemperature(), savedContainer.getMoistureValue(), savedContainer.getPressureValue(), savedContainer.getWindSpeedValue());
+                restoreData(savedContainer.getCurrentLocation(), savedContainer.getTemperature(), savedContainer.getStatus(), savedContainer.getMoistureValue(), savedContainer.getPressureValue(), savedContainer.getWindSpeedValue());
             if (savedInstanceState.getSerializable("WeekWeather") != null)
-                initRecyclerView((ArrayList<WeatherDays>) savedInstanceState.getSerializable("WeekWeather"));
+                initRecyclerView((ArrayList<WeatherRequest>) savedInstanceState.getSerializable("WeekWeather"));
         } else {
-            generateData();
-            initRecyclerView(WeatherDays.getDays(8, requireActivity()));
+            WeatherGetter.getWeather(currentLocationValue, this);
+            WeatherGetter.getWeatherForecast(currentLocationValue, this);
         }
 
         view.findViewById(R.id.locationInfoView).setOnClickListener(v -> openLocationInfo());
@@ -117,6 +134,7 @@ public class MainFragment extends Fragment {
     public void onSaveInstanceState(@NonNull Bundle outState) {
         WeatherDataContainer container = WeatherDataContainer.saveData(currentLocation.getText().toString(),
                 temperature.getText().toString(),
+                weatherStatus.getText().toString(),
                 moisture.getText().toString(),
                 pressure.getText().toString(),
                 windSpeed.getText().toString());
@@ -125,11 +143,22 @@ public class MainFragment extends Fragment {
         super.onSaveInstanceState(outState);
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == 1000) {
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                currentLocationValue = Geolocation.getGeolocation(this, requireContext());
+                WeatherGetter.getWeather(currentLocationValue, this);
+                WeatherGetter.getWeatherForecast(currentLocationValue, this);
+            }
+        }
+    }
+
     private void setupMenu() {
         setHasOptionsMenu(true);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
         Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_list);
+        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_navigation);
     }
 
     private void findViews(View v) {
@@ -143,22 +172,10 @@ public class MainFragment extends Fragment {
         daysRecyclerView = v.findViewById(R.id.daysListView);
         dayOfWeek = v.findViewById(R.id.dayOfWeekView);
         nestedScrollView = v.findViewById(R.id.mainScrollView);
+        progressBar = v.findViewById(R.id.progressBarView);
     }
 
-    private void generateData() {
-        MainFragmentArgs args = MainFragmentArgs.fromBundle(requireArguments());
-
-        String currentLocationValue = args.getCityName();
-        String temperatureValue = (int) (Math.random() * 25) + currentWeatherPostfix;
-        String moistureValue = String.valueOf((int) (Math.random() * 100));
-        String pressureValue = String.valueOf((int) (Math.random() * 100));
-        String windSpeedValue = String.valueOf((int) (Math.random() * 10));
-
-        setData(currentLocationValue, temperatureValue, moistureValue, pressureValue, windSpeedValue);
-    }
-
-    private void setData(String currentLocationValue, String temperatureValue, String moistureValue, String pressureValue, String windSpeedValue) {
-        setBackground();
+    private void restoreData(String currentLocationValue, String temperatureValue, String status, String moistureValue, String pressureValue, String windSpeedValue) {
         setDayOfWeek();
         if (currentLocation.getText().equals(getResources().getString(R.string.weather_location)))
             currentLocation.setText(currentLocationValue);
@@ -167,6 +184,7 @@ public class MainFragment extends Fragment {
         pressure.setText(pressureValue);
         windSpeed.setText(windSpeedValue);
         weatherStatus.setText(getString(R.string.weather_status_example));
+        weatherStatus.setText(status);
     }
 
     private void setDayOfWeek() {
@@ -184,15 +202,6 @@ public class MainFragment extends Fragment {
                 backgroundImage.setImageResource(R.drawable.default_image_night);
                 break;
         }
-    }
-
-    private void initRecyclerView(ArrayList<WeatherDays> data) {
-        daysAdapter = new DaysAdapter();
-
-        daysAdapter.addItems(data);
-
-        daysRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        daysRecyclerView.setAdapter(daysAdapter);
     }
 
     private void openLocationInfo() {
@@ -221,5 +230,35 @@ public class MainFragment extends Fragment {
 
             nestedScrollView.smoothScrollTo(0, height - actionBarHeight);
         });
+    }
+
+    @SuppressLint("DefaultLocale")
+    public void showWeather(WeatherRequest request) {
+        currentLocation.setText(request.getName());
+
+        String weatherStatusValue = String.valueOf(request.getWeather()[0].getDescription());
+        weatherStatusValue = weatherStatusValue.substring(0, 1).toUpperCase() + weatherStatusValue.substring(1);
+        weatherStatus.setText(weatherStatusValue);
+
+        temperature.setText(String.format("%.1f" + currentWeatherPostfix, request.getMain().getTemp()));
+        pressure.setText(String.format("%d", request.getMain().getPressure()));
+        windSpeed.setText(String.format("%.1f", request.getWind().getSpeed()));
+        moisture.setText(String.format("%d", request.getMain().getHumidity()));
+    }
+
+    public void initRecyclerView(ArrayList<WeatherRequest> weatherRequests) {
+        daysAdapter = new DaysAdapter();
+        daysAdapter.addItems(weatherRequests);
+
+        daysRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        daysRecyclerView.setAdapter(daysAdapter);
+        progressBar.setVisibility(View.INVISIBLE);
+    }
+
+    public void showError() {
+        Toast.makeText(requireContext(), "This city does not exist!", Toast.LENGTH_LONG).show();
+        currentLocationValue = Geolocation.getGeolocation(this, requireContext());
+        WeatherGetter.getWeather(currentLocationValue, this);
+        WeatherGetter.getWeatherForecast(currentLocationValue, this);
     }
 }

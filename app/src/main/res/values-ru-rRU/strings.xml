@@ -56,6 +56,7 @@
         <item>Сидней</item>
         <item>Дубай</item>
         <item>Берлин</item>
+        <item>ASDF</item>
     </string-array>
 
     <string-array name="days_of_week">
