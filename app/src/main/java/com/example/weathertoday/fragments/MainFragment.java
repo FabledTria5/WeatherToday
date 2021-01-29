@@ -95,7 +95,7 @@ public class MainFragment extends Fragment {
         view.findViewById(R.id.locationInfoView).setOnClickListener(v -> openLocationInfo());
 
         if (getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            view.findViewById(R.id.btnDownView).setOnClickListener(v -> getDown());
+            view.findViewById(R.id.btnDownView).setOnClickListener(v -> nestedScrollView.post(() -> nestedScrollView.smoothScrollTo(0, backgroundImage.getHeight())));
         }
     }
 
@@ -206,22 +206,6 @@ public class MainFragment extends Fragment {
         } else {
             Toast.makeText(requireContext(), R.string.choose_city, Toast.LENGTH_SHORT).show();
         }
-    }
-
-    private void getDown() {
-        nestedScrollView.post(() -> {
-            DisplayMetrics displayMetrics = new DisplayMetrics();
-            requireActivity().getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-            int height = displayMetrics.heightPixels;
-
-            int actionBarHeight = 0;
-            TypedValue tv = new TypedValue();
-            if (requireActivity().getTheme().resolveAttribute(android.R.attr.actionBarSize, tv, true)) {
-                actionBarHeight = TypedValue.complexToDimensionPixelSize(tv.data, getResources().getDisplayMetrics());
-            }
-
-            nestedScrollView.smoothScrollTo(0, height - actionBarHeight);
-        });
     }
 
     @SuppressLint("DefaultLocale")
