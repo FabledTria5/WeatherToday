@@ -14,7 +14,6 @@ import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -26,20 +25,15 @@ import com.example.weathertoday.containers.OptionsContainer;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
-import java.util.Objects;
 
 public class OptionsFragment extends Fragment {
 
     private SwitchCompat themeSwitcher;
     private Spinner languageSelector;
-    private Spinner temperatureUnitsSelector;
-    private Spinner pressureUnitsSelector;
-    private Spinner windSpeedUnitsSelector;
+    private Spinner unitsSelector;
     private ConstraintLayout appThemeLayout;
     private ConstraintLayout languageLayout;
-    private ConstraintLayout temperatureLayout;
-    private ConstraintLayout pressureLayout;
-    private ConstraintLayout windSpeedLayout;
+    private ConstraintLayout unitsLayout;
     private MaterialButton doneBtn;
 
     @Override
@@ -57,9 +51,7 @@ public class OptionsFragment extends Fragment {
 
         appThemeLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) appThemeLayout.getChildAt(2)));
         languageLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) languageLayout.getChildAt(2)));
-        temperatureLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) temperatureLayout.getChildAt(2)));
-        pressureLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) pressureLayout.getChildAt(2)));
-        windSpeedLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) windSpeedLayout.getChildAt(2)));
+        unitsLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) unitsLayout.getChildAt(2)));
 
         doneBtn.setOnClickListener(v -> getBack());
 
@@ -83,15 +75,11 @@ public class OptionsFragment extends Fragment {
     private void findViews(View v) {
         themeSwitcher = v.findViewById(R.id.nightModeSwitchView);
         languageSelector = v.findViewById(R.id.selectLanguageView);
-        temperatureUnitsSelector = v.findViewById(R.id.selectTemperatureUnitsView);
-        pressureUnitsSelector = v.findViewById(R.id.selectPressureUnitsView);
-        windSpeedUnitsSelector = v.findViewById(R.id.selectWindSpeedView);
+        unitsSelector = v.findViewById(R.id.selectTemperatureUnitsView);
 
         appThemeLayout = v.findViewById(R.id.openAppTheme);
         languageLayout = v.findViewById(R.id.openSelectLanguage);
-        temperatureLayout = v.findViewById(R.id.openSelectTemperature);
-        pressureLayout = v.findViewById(R.id.openSelectPressure);
-        windSpeedLayout = v.findViewById(R.id.openSelectWindSpeed);
+        unitsLayout = v.findViewById(R.id.openSelectTemperature);
 
         doneBtn = v.findViewById(R.id.doneButtonView);
     }
@@ -123,19 +111,13 @@ public class OptionsFragment extends Fragment {
     private void setupSpinners() {
         if (getContext() != null) {
             ArrayAdapter<String> languageAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item, getResources().getStringArray(R.array.languages));
-            ArrayAdapter<String> temperatureAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item, getResources().getStringArray(R.array.temperature_units));
-            ArrayAdapter<String> pressureAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item, getResources().getStringArray(R.array.pressure_units));
-            ArrayAdapter<String> windSpeedAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item, getResources().getStringArray(R.array.wind_speed_units));
+            ArrayAdapter<String> unitsAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item, getResources().getStringArray(R.array.units_names));
 
             languageAdapter.setDropDownViewResource(R.layout.spinner_item);
-            temperatureAdapter.setDropDownViewResource(R.layout.spinner_item);
-            pressureAdapter.setDropDownViewResource(R.layout.spinner_item);
-            windSpeedAdapter.setDropDownViewResource(R.layout.spinner_item);
+            unitsAdapter.setDropDownViewResource(R.layout.spinner_item);
 
             languageSelector.setAdapter(languageAdapter);
-            temperatureUnitsSelector.setAdapter(temperatureAdapter);
-            pressureUnitsSelector.setAdapter(pressureAdapter);
-            windSpeedUnitsSelector.setAdapter(windSpeedAdapter);
+            unitsSelector.setAdapter(unitsAdapter);
         }
     }
 

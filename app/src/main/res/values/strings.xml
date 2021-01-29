@@ -45,6 +45,13 @@
     <string name="search">Search</string>
     <string name="home">Home</string>
     <string name="exit">Exit?</string>
+    <string name="select_units">Select units</string>
+
+    <string-array name="units_names">
+        <item>Metric</item>
+        <item>Imperial</item>
+        <item>Science</item>
+    </string-array>
 
     <string-array name="languages">
         <item>English</item>
@@ -52,8 +59,9 @@
     </string-array>
 
     <string-array name="temperature_units">
-        <item>C\u00B0</item>
-        <item>F\u00B0</item>
+        <item>\u00B0C</item>
+        <item>\u00B0F</item>
+        <item>\u00B0K</item>
     </string-array>
 
     <string-array name="pressure_units">
@@ -66,30 +74,5 @@
         <item>m/s</item>
         <item>mi/h</item>
     </string-array>
-
-    <string-array name="topCities">
-        <item>New York</item>
-        <item>Los Angeles</item>
-        <item>London</item>
-        <item>Paris</item>
-        <item>Moscow</item>
-        <item>Beijing</item>
-        <item>Tokyo</item>
-        <item>Sydney</item>
-        <item>Dubai</item>
-        <item>Berlin</item>
-        <item>ASDF</item>
-    </string-array>
-
-    <string-array name="days_of_week">
-        <item>Sunday</item>
-        <item>Monday</item>
-        <item>Tuesday</item>
-        <item>Wednesday</item>
-        <item>Thursday</item>
-        <item>Friday</item>
-        <item>Saturday</item>
-    </string-array>
-
 
 </resources>
