@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.util.Log;
@@ -58,8 +59,10 @@ public class MainFragment extends Fragment {
 
     private String currentWeatherPostfix = "\u00B0C"; // В будущем будет выбираться согласно пользовательким настройкам
     private final String WIKI_URL = "https://ru.wikipedia.org/wiki/";
-    private String currentLocationValue;
     private static final String TAG = "MainFragment";
+    private static final int LOADING_DELAY = 200;
+
+    private String currentLocationValue;
 
     DaysAdapter daysAdapter;
 
@@ -86,8 +89,10 @@ public class MainFragment extends Fragment {
             if (savedInstanceState.getSerializable("WeekWeather") != null)
                 initRecyclerView((ArrayList<WeatherRequest>) savedInstanceState.getSerializable("WeekWeather"));
         } else {
-            WeatherGetter.getWeather(currentLocationValue, this);
-            WeatherGetter.getWeatherForecast(currentLocationValue, this);
+            new Handler().postDelayed(() -> {
+                WeatherGetter.getWeather(currentLocationValue, MainFragment.this);
+                WeatherGetter.getWeatherForecast(currentLocationValue, MainFragment.this);
+            }, LOADING_DELAY);
         }
 
         view.findViewById(R.id.locationInfoView).setOnClickListener(v -> openLocationInfo());
