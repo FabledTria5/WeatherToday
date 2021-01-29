@@ -63,8 +63,7 @@ public class MainFragment extends Fragment {
     private static final int LOADING_DELAY = 200;
 
     private String currentLocationValue;
-
-    DaysAdapter daysAdapter;
+    private DaysAdapter daysAdapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -89,10 +88,8 @@ public class MainFragment extends Fragment {
             if (savedInstanceState.getSerializable("WeekWeather") != null)
                 initRecyclerView((ArrayList<WeatherRequest>) savedInstanceState.getSerializable("WeekWeather"));
         } else {
-            new Handler().postDelayed(() -> {
-                WeatherGetter.getWeather(currentLocationValue, MainFragment.this);
-                WeatherGetter.getWeatherForecast(currentLocationValue, MainFragment.this);
-            }, LOADING_DELAY);
+            WeatherGetter.getWeather(currentLocationValue, MainFragment.this);
+            new Handler().postDelayed(() -> WeatherGetter.getWeatherForecast(currentLocationValue, MainFragment.this), LOADING_DELAY);
         }
 
         view.findViewById(R.id.locationInfoView).setOnClickListener(v -> openLocationInfo());
