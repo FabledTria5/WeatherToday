@@ -2,11 +2,12 @@ package com.example.weathertoday.fragments;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -14,6 +15,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -21,14 +23,13 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.Navigation;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.weathertoday.Geolocation;
 import com.example.weathertoday.R;
 import com.example.weathertoday.WeatherDays;
 import com.example.weathertoday.adapters.DaysAdapter;
@@ -58,6 +59,7 @@ public class MainFragment extends Fragment {
     private String currentWeatherPostfix = "\u00B0C"; // В будущем будет выбираться согласно пользовательким настройкам
     private final String WIKI_URL = "https://ru.wikipedia.org/wiki/";
     private String currentLocationValue;
+    private static final String TAG = "MainFragment";
 
     DaysAdapter daysAdapter;
 
@@ -75,12 +77,7 @@ public class MainFragment extends Fragment {
         setDayOfWeek();
         setBackground();
 
-        MainFragmentArgs args = MainFragmentArgs.fromBundle(requireArguments());
-        currentLocationValue = args.getCityName();
-
-        if (currentLocationValue.equals("DefaultString")) {
-            currentLocationValue = Geolocation.getGeolocation(this, requireContext());
-        }
+        currentLocationValue = "Moscow";
 
         if (savedInstanceState != null) {
             WeatherDataContainer savedContainer = (WeatherDataContainer) savedInstanceState.getSerializable("Key");
@@ -102,31 +99,35 @@ public class MainFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(@NonNull Menu menu, @NonNull MenuInflater inflater) {
-        MenuItem optionsItem = menu.add(R.string.option_fragment_name);
-        MenuItem authorsItem = menu.add(R.string.developers);
+        MenuItem searchItem = menu.add(R.string.search);
+        searchItem.setIcon(R.drawable.ic_search);
+        searchItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
-        optionsItem.setIcon(R.drawable.ic_settings);
-        authorsItem.setIcon(R.drawable.ic_writer);
+        searchItem.setOnMenuItemClickListener((item -> {
+            AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+            builder.setTitle(R.string.enter_city);
 
-        optionsItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-        authorsItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+            final EditText input = new EditText(requireContext());
+            input.setInputType(InputType.TYPE_CLASS_TEXT);
+            builder.setView(input);
 
-        optionsItem.setOnMenuItemClickListener(item -> {
-            Navigation.findNavController(requireView()).navigate(R.id.navigateToOptionsFragment);
+            builder.setPositiveButton("OK", (dialog, which) -> {
+                String cityName = input.getText().toString();
+                WeatherGetter.getWeather(cityName, this);
+                WeatherGetter.getWeatherForecast(cityName, this);
+            });
+
+            builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+            builder.show();
             return true;
-        });
-
-        authorsItem.setOnMenuItemClickListener(item -> {
-            Navigation.findNavController(requireView()).navigate(R.id.navigateToDevelopersFragment);
-            return true;
-        });
-        super.onCreateOptionsMenu(menu, inflater);
+        }));
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId() == android.R.id.home)
-            Navigation.findNavController(requireView()).navigate(R.id.navigateToCityPickFragment);
+        if (item.getItemId() == android.R.id.home) {
+            Log.d(TAG, "onOptionsItemSelected: " + item.getItemId());
+        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -141,17 +142,6 @@ public class MainFragment extends Fragment {
         outState.putSerializable("WeekWeather", daysAdapter.getItems());
         outState.putSerializable("Key", container);
         super.onSaveInstanceState(outState);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == 1000) {
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                currentLocationValue = Geolocation.getGeolocation(this, requireContext());
-                WeatherGetter.getWeather(currentLocationValue, this);
-                WeatherGetter.getWeatherForecast(currentLocationValue, this);
-            }
-        }
     }
 
     private void setupMenu() {
@@ -257,8 +247,5 @@ public class MainFragment extends Fragment {
 
     public void showError() {
         Toast.makeText(requireContext(), "This city does not exist!", Toast.LENGTH_LONG).show();
-        currentLocationValue = Geolocation.getGeolocation(this, requireContext());
-        WeatherGetter.getWeather(currentLocationValue, this);
-        WeatherGetter.getWeatherForecast(currentLocationValue, this);
     }
 }

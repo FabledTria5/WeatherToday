@@ -42,6 +42,9 @@
     <string name="geekbrains" translatable="false">GeekBrains</string>
     <string name="developer_android_com" translatable="false">developer.android.com</string>
     <string name="startandroid_ru" translatable="false">startandroid.ru</string>
+    <string name="search">Search</string>
+    <string name="home">Home</string>
+    <string name="exit">Exit?</string>
 
     <string-array name="languages">
         <item>English</item>

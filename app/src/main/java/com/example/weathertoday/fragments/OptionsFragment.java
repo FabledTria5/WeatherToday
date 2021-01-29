@@ -14,7 +14,6 @@ import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
@@ -55,7 +54,6 @@ public class OptionsFragment extends Fragment {
         setupLayouts(view);
         setupSpinners();
         setupThemeSwitcher();
-        setupMenu();
 
         appThemeLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) appThemeLayout.getChildAt(2)));
         languageLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) languageLayout.getChildAt(2)));
@@ -97,14 +95,6 @@ public class OptionsFragment extends Fragment {
 
         doneBtn = v.findViewById(R.id.doneButtonView);
     }
-
-    private void setupMenu() {
-        setHasOptionsMenu(true);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
-    }
-
 
     private void setupLayouts(View v) {
         ArrayList<ConstraintLayout> list = OptionsContainer.getVisibleLayouts();

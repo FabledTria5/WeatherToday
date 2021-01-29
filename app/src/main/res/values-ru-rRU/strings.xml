@@ -79,5 +79,8 @@
     <string name="this_app_developed_by">Приложение разработано:</string>
     <string name="developer_name">Алексей Рогатин (FabledTria5)</string>
     <string name="special_thanks_to">Благодарности:</string>
+    <string name="search">Поиск</string>
+    <string name="home">Главная</string>
+    <string name="exit">Выйти?</string>
 
 </resources>

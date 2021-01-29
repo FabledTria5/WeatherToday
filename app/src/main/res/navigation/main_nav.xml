@@ -3,66 +3,25 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/main_nav"
-    app:startDestination="@id/mainFragment">
+    app:startDestination="@id/home_nav">
 
     <fragment
-        android:id="@+id/mainFragment"
+        android:id="@+id/home_nav"
         android:name="com.example.weathertoday.fragments.MainFragment"
-        android:label="fragment_main"
-        tools:layout="@layout/fragment_main" >
-        <action
-            android:id="@+id/navigateToCityPickFragment"
-            app:destination="@id/cityPickFragment"
-            app:enterAnim="@anim/enter_from_left"
-            app:exitAnim="@anim/fragment_fade_exit" />
-        <action
-            android:id="@+id/navigateToOptionsFragment"
-            app:destination="@id/optionsFragment"
-            app:enterAnim="@anim/enter_from_right"
-            app:exitAnim="@anim/fragment_fade_exit" />
+        android:label="@string/home"
+        tools:layout="@layout/fragment_main">
         <argument
             android:name="cityName"
-            app:argType="string"
-            android:defaultValue="DefaultString" />
-        <action
-            android:id="@+id/navigateToDevelopersFragment"
-            app:destination="@id/developersFragment1"
-            app:enterAnim="@anim/enter_from_top"
-            app:exitAnim="@anim/fragment_fade_exit" />
+            android:defaultValue="DefaultString"
+            app:argType="string" />
     </fragment>
     <fragment
-        android:id="@+id/cityPickFragment"
-        android:name="com.example.weathertoday.fragments.CityPickFragment"
-        android:label="fragment_city_pick"
-        tools:layout="@layout/fragment_city_pick" >
-        <action
-            android:id="@+id/navigateToMainFragmentFromCityPickFragment"
-            app:destination="@id/mainFragment"
-            app:enterAnim="@anim/enter_from_right"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popUpTo="@id/mainFragment"
-            app:popUpToInclusive="false" />
-    </fragment>
-    <fragment
-        android:id="@+id/optionsFragment"
-        android:name="com.example.weathertoday.fragments.OptionsFragment"
-        android:label="fragment_options"
-        tools:layout="@layout/fragment_options" >
-        <action
-            android:id="@+id/navigateToMainFragmentFromOptionsFragment"
-            app:destination="@id/mainFragment"
-            app:enterAnim="@anim/enter_from_left"
-            app:exitAnim="@anim/nav_default_exit_anim"
-            app:popUpTo="@id/mainFragment" />
-    </fragment>
-    <fragment
-        android:id="@+id/developersFragment1"
+        android:id="@+id/developers_nav"
         android:name="com.example.weathertoday.fragments.DevelopersFragment"
-        android:label="fragment_developers"
-        tools:layout="@layout/fragment_developers" >
-        <action
-            android:id="@+id/navigateToMainFragmentFromDevelopersFragment"
-            app:destination="@id/mainFragment"
-            app:popUpTo="@id/mainFragment" />
-    </fragment>
+        android:label="@string/developers"
+        tools:layout="@layout/fragment_developers" />
+    <fragment
+        android:id="@+id/options_nav"
+        android:name="com.example.weathertoday.fragments.OptionsFragment"
+        android:label="@string/options" />
 </navigation>
