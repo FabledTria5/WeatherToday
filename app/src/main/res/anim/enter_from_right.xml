@@ -3,6 +3,7 @@
     android:shareInterpolator="false">
 
     <translate
+        android:startOffset="200"
         android:duration="@android:integer/config_mediumAnimTime"
         android:fromXDelta="100%p"
         android:fromYDelta="0%"
