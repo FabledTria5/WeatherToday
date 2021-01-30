@@ -5,6 +5,7 @@ import android.os.Handler;
 import android.os.Looper;
 
 import com.example.weathertoday.BuildConfig;
+import com.example.weathertoday.MainActivity;
 import com.example.weathertoday.fragments.MainFragment;
 import com.example.weathertoday.network.model.WeatherList;
 import com.example.weathertoday.network.model.WeatherRequest;
@@ -32,6 +33,33 @@ public class WeatherGetter {
     private static final String FORECAST_DAYS_COUNT = "&cnt=12";
 
     private static final Gson gson = new Gson();
+
+    public static void getWeather(String city, MainActivity parent) {
+        try {
+            String language = (Locale.getDefault().getLanguage().equals("en")) ? "en" : "ru";
+            URL url = new URL((REQUEST_FIRST_PART + city + UNITS + LOCALE + language + API_KEY_PREFIX + BuildConfig.WEATHER_API_KEY));
+            Handler handler = new Handler(Looper.getMainLooper());
+            new Thread(() -> {
+                HttpsURLConnection urlConnection;
+                try {
+                    urlConnection = (HttpsURLConnection) url.openConnection();
+                    urlConnection.setRequestMethod("GET");
+                    urlConnection.setReadTimeout(1000);
+                    BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
+                    String result = getLines(in);
+
+                    WeatherRequest weatherRequest = gson.fromJson(result, WeatherRequest.class);
+
+                    handler.post(() -> parent.setupNavHeader(weatherRequest));
+                    urlConnection.disconnect();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }).start();
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void getWeather(String city, MainFragment parent) {
         try {

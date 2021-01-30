@@ -2,7 +2,6 @@ package com.example.weathertoday.adapters;
 
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -82,8 +81,6 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.DaysViewHolder
             date.setText(day.getDt_txt());
 
             String icon = day.getWeather()[0].getIcon();
-            icon = icon.replace("n", "d");
-            Log.d("TAG", "bind: " + ICON_URL_PREFIX + icon + ICON_URL_POSTFIX);
             Picasso.get().load(ICON_URL_PREFIX + icon + ICON_URL_POSTFIX).into(dayStatusIcon);
         }
 

@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navHeader"
+    android:layout_width="match_parent"
+    android:layout_height="200dp"
+    android:background="@drawable/nav_background"
+    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+
+    <ImageView
+        android:id="@+id/navHeaderIconView"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="25dp"
+        android:src="@drawable/ic_sunny_weather"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/navHeaderLocationView"
+        style="@style/navHeaderPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/weather_location"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/navHeaderIconView"
+        app:layout_constraintTop_toTopOf="@+id/navHeaderIconView" />
+
+    <TextView
+        android:id="@+id/navWeatherStatus"
+        style="@style/navHeaderPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:text="@string/weather_status_text"
+        android:textSize="17sp"
+        app:layout_constraintEnd_toEndOf="@+id/navHeaderLocationView"
+        app:layout_constraintStart_toStartOf="@+id/navHeaderLocationView"
+        app:layout_constraintTop_toBottomOf="@+id/navHeaderLocationView" />
+
+    <ImageView
+        android:id="@+id/imageView7"
+        android:layout_width="@dimen/nav_header_icons_size"
+        android:layout_height="@dimen/nav_header_icons_size"
+        android:layout_marginBottom="50dp"
+        android:src="@drawable/ic_moisture"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/imageView5"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView5"
+        android:layout_width="@dimen/nav_header_icons_size"
+        android:layout_height="@dimen/nav_header_icons_size"
+        android:layout_marginBottom="50dp"
+        android:src="@drawable/ic_pressure"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView6"
+        android:layout_width="@dimen/nav_header_icons_size"
+        android:layout_height="@dimen/nav_header_icons_size"
+        android:layout_marginBottom="50dp"
+        android:src="@drawable/ic_wind"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/imageView5" />
+
+    <TextView
+        android:id="@+id/navMoistureValue"
+        style="@style/navHeaderPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="0"
+        app:layout_constraintEnd_toEndOf="@+id/imageView7"
+        app:layout_constraintStart_toStartOf="@+id/imageView7"
+        app:layout_constraintTop_toBottomOf="@+id/imageView7"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/navPressureValue"
+        style="@style/navHeaderPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="0"
+        app:layout_constraintEnd_toEndOf="@+id/imageView5"
+        app:layout_constraintStart_toStartOf="@+id/imageView5"
+        app:layout_constraintTop_toBottomOf="@+id/imageView5"
+        tools:ignore="HardcodedText" />
+
+    <TextView
+        android:id="@+id/navWindValue"
+        style="@style/navHeaderPage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="5dp"
+        android:text="0"
+        app:layout_constraintEnd_toEndOf="@+id/imageView6"
+        app:layout_constraintStart_toStartOf="@+id/imageView6"
+        app:layout_constraintTop_toBottomOf="@+id/imageView6"
+        tools:ignore="HardcodedText" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
