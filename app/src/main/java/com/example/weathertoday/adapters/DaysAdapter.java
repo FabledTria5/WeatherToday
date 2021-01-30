@@ -2,6 +2,7 @@ package com.example.weathertoday.adapters;
 
 import android.transition.AutoTransition;
 import android.transition.TransitionManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.weathertoday.R;
 import com.example.weathertoday.WeatherDays;
 import com.example.weathertoday.network.model.WeatherRequest;
+import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -39,6 +41,9 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.DaysViewHolder
         private final TextView pressureDayValue;
         private final TextView windSpeedDayValue;
         private final TextView date;
+
+        private final String ICON_URL_PREFIX = "http://openweathermap.org/img/wn/";
+        private final String ICON_URL_POSTFIX = "@2x.png";
 
         public DaysViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -75,6 +80,11 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.DaysViewHolder
             }
 
             date.setText(day.getDt_txt());
+
+            String icon = day.getWeather()[0].getIcon();
+            icon = icon.replace("n", "d");
+            Log.d("TAG", "bind: " + ICON_URL_PREFIX + icon + ICON_URL_POSTFIX);
+            Picasso.get().load(ICON_URL_PREFIX + icon + ICON_URL_POSTFIX).into(dayStatusIcon);
         }
 
         public void showHideDay() {

@@ -69,7 +69,7 @@ public class WeatherGetter {
                 try {
                     urlConnection = (HttpsURLConnection) url.openConnection();
                     urlConnection.setRequestMethod("GET");
-                    urlConnection.setReadTimeout(1000);
+                    urlConnection.setReadTimeout(10000);
                     BufferedReader in = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
                     String result = getLines(in);
 
