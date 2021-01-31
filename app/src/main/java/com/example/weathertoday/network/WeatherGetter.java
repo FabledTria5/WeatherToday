@@ -38,7 +38,8 @@ public class WeatherGetter {
     public static void getWeather(String city, MainActivity parent, String unitsName) {
         try {
             String language = (Locale.getDefault().getLanguage().equals("en")) ? "en" : "ru";
-            URL url = new URL((REQUEST_FIRST_PART + city + UNITS + unitsName + LOCALE + language + API_KEY_PREFIX + BuildConfig.WEATHER_API_KEY));
+            city = formatCityName(city);
+            URL url = new URL((REQUEST_FIRST_PART + city + UNITS + unitsName + LOCALE + language + API_KEY_PREFIX + BuildConfig.WEATHER_API_KEY).replaceAll(" ", ""));
             Handler handler = new Handler(Looper.getMainLooper());
             new Thread(() -> {
                 HttpsURLConnection urlConnection;
@@ -65,6 +66,7 @@ public class WeatherGetter {
     public static void getWeather(String city, MainFragment parent, String unitsName) {
         try {
             String language = (Locale.getDefault().getLanguage().equals("en")) ? "en" : "ru";
+            city = formatCityName(city);
             URL url = new URL((REQUEST_FIRST_PART + city + UNITS + unitsName + LOCALE + language + API_KEY_PREFIX + BuildConfig.WEATHER_API_KEY));
             Handler handler = new Handler(Looper.getMainLooper());
             new Thread(() -> {
@@ -91,6 +93,7 @@ public class WeatherGetter {
     public static void getWeatherForecast(String city, MainFragment parent, String unitsName) {
         try {
             String language = (Locale.getDefault().getLanguage().equals("en")) ? "en" : "ru";
+            city = formatCityName(city);
             URL url = new URL(MULTIPLE_REQUEST_FIRST_PART + city + UNITS + unitsName + LOCALE + language + FORECAST_DAYS_COUNT + API_KEY_PREFIX + BuildConfig.WEATHER_API_KEY);
             Handler handler = new Handler(Looper.getMainLooper());
             new Thread(() -> {
@@ -119,6 +122,13 @@ public class WeatherGetter {
             return in.lines().collect(Collectors.joining("\n"));
         }
         return null;
+    }
+
+    private static String formatCityName(String cityName) {
+        if (cityName.endsWith(" ")) {
+            cityName = cityName.substring(0, cityName.length() - 1);
+        }
+        return cityName.replace(" ", "-");
     }
 }
 
