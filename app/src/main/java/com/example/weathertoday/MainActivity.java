@@ -1,6 +1,8 @@
 package com.example.weathertoday;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -33,11 +35,19 @@ public class MainActivity extends AppCompatActivity {
     private final String ICON_URL_PREFIX = "http://openweathermap.org/img/wn/";
     private final String ICON_URL_POSTFIX = "@2x.png";
 
+    public static final String APP_PREFERENCES = "settings";
+    public static final String APP_PREFERENCES_LANGUAGE = "language";
+    public static final String APP_PREFERENCES_UNITS = "units";
+    public static final String APP_PREFERENCES_THEME = "theme";
+
+    private SharedPreferences preferences;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        preferences = getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         navigationView = findViewById(R.id.navigationView);
         drawerLayout = findViewById(R.id.drawerLayoutView);
 
@@ -49,7 +59,8 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
 
-        WeatherGetter.getWeather(HOME_LOCATION, this);
+        WeatherGetter.getWeather(HOME_LOCATION, this, preferences.getString(APP_PREFERENCES_UNITS, "metric"));
+        restoreSettings();
     }
 
     @Override
@@ -83,9 +94,13 @@ public class MainActivity extends AppCompatActivity {
         ((TextView) headerView.findViewById(R.id.navMoistureValue)).setText(String.format("%d", weatherRequest.getMain().getHumidity()));
         ((TextView) headerView.findViewById(R.id.navPressureValue)).setText(String.format("%d", weatherRequest.getMain().getPressure()));
         ((TextView) headerView.findViewById(R.id.navWindValue)).setText(String.format("%.1f", weatherRequest.getWind().getSpeed()));
+        ((TextView) headerView.findViewById(R.id.navTemperatureView)).setText(String.format("%.1f" + MySettings.getTempPostfix(), weatherRequest.getMain().getTemp()));
 
         String icon = weatherRequest.getWeather()[0].getIcon();
         Picasso.get().load(ICON_URL_PREFIX + icon + ICON_URL_POSTFIX).into(((ImageView) headerView.findViewById(R.id.navHeaderIconView)));
+    }
 
+    private void restoreSettings() {
+        MySettings.setLanguage();
     }
 }

@@ -18,28 +18,50 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/navHeaderLocationView"
-        style="@style/navHeaderPage"
+    <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/weather_location"
-        android:textSize="18sp"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@+id/navHeaderIconView"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/navHeaderIconView"
-        app:layout_constraintTop_toTopOf="@+id/navHeaderIconView" />
+        app:layout_constraintTop_toTopOf="@+id/navHeaderIconView">
 
-    <TextView
-        android:id="@+id/navWeatherStatus"
-        style="@style/navHeaderPage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp"
-        android:text="@string/weather_status_text"
-        android:textSize="17sp"
-        app:layout_constraintEnd_toEndOf="@+id/navHeaderLocationView"
-        app:layout_constraintStart_toStartOf="@+id/navHeaderLocationView"
-        app:layout_constraintTop_toBottomOf="@+id/navHeaderLocationView" />
+        <TextView
+            android:id="@+id/navHeaderLocationView"
+            style="@style/navHeaderPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/weather_location"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/navHeaderIconView"
+            app:layout_constraintTop_toTopOf="@+id/navHeaderIconView" />
+
+        <TextView
+            android:id="@+id/navTemperatureView"
+            style="@style/navHeaderPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/temperature_text"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="@+id/navHeaderLocationView"
+            app:layout_constraintStart_toStartOf="@+id/navHeaderLocationView"
+            app:layout_constraintTop_toBottomOf="@+id/navHeaderLocationView" />
+
+        <TextView
+            android:id="@+id/navWeatherStatus"
+            style="@style/navHeaderPage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/weather_status_text"
+            android:textSize="17sp"
+            app:layout_constraintEnd_toEndOf="@+id/navHeaderLocationView"
+            app:layout_constraintStart_toStartOf="@+id/navHeaderLocationView"
+            app:layout_constraintTop_toBottomOf="@+id/navTemperatureView" />
+
+    </LinearLayout>
 
     <ImageView
         android:id="@+id/imageView7"

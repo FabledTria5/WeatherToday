@@ -12,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.weathertoday.MySettings;
 import com.example.weathertoday.R;
 import com.example.weathertoday.WeatherDays;
 import com.example.weathertoday.network.model.WeatherRequest;
@@ -63,7 +64,7 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.DaysViewHolder
         public void bind(int position) {
            WeatherRequest day = days.get(position);
 
-           temperature.setText(String.format(Locale.ENGLISH, "%.1f" + "\u00B0C", day.getMain().getTemp()));
+           temperature.setText(String.format(Locale.ENGLISH, "%.1f" + MySettings.getTempPostfix(), day.getMain().getTemp()));
            pressureDayValue.setText(String.format(Locale.ENGLISH,"%d", day.getMain().getPressure()));
            windSpeedDayValue.setText(String.format(Locale.ENGLISH,"%.1f", day.getWind().getSpeed()));
            moistureDayValue.setText(String.format(Locale.ENGLISH,"%d", day.getMain().getHumidity()));

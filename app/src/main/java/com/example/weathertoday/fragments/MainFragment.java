@@ -1,7 +1,9 @@
 package com.example.weathertoday.fragments;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
@@ -29,6 +31,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.weathertoday.MySettings;
 import com.example.weathertoday.R;
 import com.example.weathertoday.WeatherDays;
 import com.example.weathertoday.adapters.DaysAdapter;
@@ -40,6 +43,9 @@ import com.google.android.material.snackbar.Snackbar;
 
 import java.util.ArrayList;
 import java.util.Objects;
+
+import static com.example.weathertoday.MainActivity.APP_PREFERENCES;
+import static com.example.weathertoday.MainActivity.APP_PREFERENCES_UNITS;
 
 public class MainFragment extends Fragment {
 
@@ -62,6 +68,7 @@ public class MainFragment extends Fragment {
 
     private String currentLocationValue;
     private DaysAdapter daysAdapter;
+    private SharedPreferences preferences;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,6 +84,7 @@ public class MainFragment extends Fragment {
         setDayOfWeek();
         setBackground();
 
+        preferences = requireContext().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         currentLocationValue = "Moscow";
 
         if (savedInstanceState != null) {
@@ -86,8 +94,8 @@ public class MainFragment extends Fragment {
             if (savedInstanceState.getSerializable("WeekWeather") != null)
                 initRecyclerView((ArrayList<WeatherRequest>) savedInstanceState.getSerializable("WeekWeather"));
         } else {
-            WeatherGetter.getWeather(currentLocationValue, MainFragment.this);
-            new Handler().postDelayed(() -> WeatherGetter.getWeatherForecast(currentLocationValue, MainFragment.this), LOADING_DELAY);
+            WeatherGetter.getWeather(currentLocationValue, MainFragment.this, preferences.getString(APP_PREFERENCES_UNITS, "metric"));
+            new Handler().postDelayed(() -> WeatherGetter.getWeatherForecast(currentLocationValue, MainFragment.this, preferences.getString(APP_PREFERENCES_UNITS, "metric")), LOADING_DELAY);
         }
 
         view.findViewById(R.id.locationInfoView).setOnClickListener(v -> openLocationInfo());
@@ -113,8 +121,8 @@ public class MainFragment extends Fragment {
 
             builder.setPositiveButton("OK", (dialog, which) -> {
                 String cityName = input.getText().toString();
-                WeatherGetter.getWeather(cityName, this);
-                WeatherGetter.getWeatherForecast(cityName, this);
+                WeatherGetter.getWeather(cityName, this, preferences.getString(APP_PREFERENCES_UNITS, "metric"));
+                WeatherGetter.getWeatherForecast(cityName, this, preferences.getString(APP_PREFERENCES_UNITS, "metrci"));
             });
 
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
@@ -214,7 +222,7 @@ public class MainFragment extends Fragment {
         weatherStatusValue = weatherStatusValue.substring(0, 1).toUpperCase() + weatherStatusValue.substring(1);
         weatherStatus.setText(weatherStatusValue);
 
-        temperature.setText(String.format("%.1f" + currentWeatherPostfix, request.getMain().getTemp()));
+        temperature.setText(String.format("%.1f" + MySettings.getTempPostfix(), request.getMain().getTemp()));
         pressure.setText(String.format("%d", request.getMain().getPressure()));
         windSpeed.setText(String.format("%.1f", request.getWind().getSpeed()));
         moisture.setText(String.format("%d", request.getMain().getHumidity()));

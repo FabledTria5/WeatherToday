@@ -6,6 +6,7 @@ import android.os.Looper;
 
 import com.example.weathertoday.BuildConfig;
 import com.example.weathertoday.MainActivity;
+import com.example.weathertoday.MySettings;
 import com.example.weathertoday.fragments.MainFragment;
 import com.example.weathertoday.network.model.WeatherList;
 import com.example.weathertoday.network.model.WeatherRequest;
@@ -27,17 +28,17 @@ public class WeatherGetter {
 
     private static final String REQUEST_FIRST_PART = "https://api.openweathermap.org/data/2.5/weather?q=";
     private static final String MULTIPLE_REQUEST_FIRST_PART = "https://api.openweathermap.org/data/2.5/forecast?q=";
-    private static final String UNITS = "&units=metric";
+    private static final String UNITS = "&units=";
     private static final String LOCALE = "&lang=";
     private static final String API_KEY_PREFIX = "&appid=";
     private static final String FORECAST_DAYS_COUNT = "&cnt=12";
 
     private static final Gson gson = new Gson();
 
-    public static void getWeather(String city, MainActivity parent) {
+    public static void getWeather(String city, MainActivity parent, String unitsName) {
         try {
             String language = (Locale.getDefault().getLanguage().equals("en")) ? "en" : "ru";
-            URL url = new URL((REQUEST_FIRST_PART + city + UNITS + LOCALE + language + API_KEY_PREFIX + BuildConfig.WEATHER_API_KEY));
+            URL url = new URL((REQUEST_FIRST_PART + city + UNITS + unitsName + LOCALE + language + API_KEY_PREFIX + BuildConfig.WEATHER_API_KEY));
             Handler handler = new Handler(Looper.getMainLooper());
             new Thread(() -> {
                 HttpsURLConnection urlConnection;
@@ -61,10 +62,10 @@ public class WeatherGetter {
         }
     }
 
-    public static void getWeather(String city, MainFragment parent) {
+    public static void getWeather(String city, MainFragment parent, String unitsName) {
         try {
             String language = (Locale.getDefault().getLanguage().equals("en")) ? "en" : "ru";
-            URL url = new URL((REQUEST_FIRST_PART + city + UNITS + LOCALE + language + API_KEY_PREFIX + BuildConfig.WEATHER_API_KEY));
+            URL url = new URL((REQUEST_FIRST_PART + city + UNITS + unitsName + LOCALE + language + API_KEY_PREFIX + BuildConfig.WEATHER_API_KEY));
             Handler handler = new Handler(Looper.getMainLooper());
             new Thread(() -> {
                 HttpsURLConnection urlConnection;
@@ -87,10 +88,10 @@ public class WeatherGetter {
         }
     }
 
-    public static void getWeatherForecast(String city, MainFragment parent) {
+    public static void getWeatherForecast(String city, MainFragment parent, String unitsName) {
         try {
             String language = (Locale.getDefault().getLanguage().equals("en")) ? "en" : "ru";
-            URL url = new URL(MULTIPLE_REQUEST_FIRST_PART + city + UNITS + LOCALE + language + FORECAST_DAYS_COUNT + API_KEY_PREFIX + BuildConfig.WEATHER_API_KEY);
+            URL url = new URL(MULTIPLE_REQUEST_FIRST_PART + city + UNITS + unitsName + LOCALE + language + FORECAST_DAYS_COUNT + API_KEY_PREFIX + BuildConfig.WEATHER_API_KEY);
             Handler handler = new Handler(Looper.getMainLooper());
             new Thread(() -> {
                 HttpsURLConnection urlConnection;

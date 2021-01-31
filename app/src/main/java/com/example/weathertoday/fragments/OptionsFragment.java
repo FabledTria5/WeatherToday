@@ -1,5 +1,7 @@
 package com.example.weathertoday.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.transition.AutoTransition;
@@ -8,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
@@ -26,6 +29,10 @@ import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
 
+import static com.example.weathertoday.MainActivity.APP_PREFERENCES;
+import static com.example.weathertoday.MainActivity.APP_PREFERENCES_THEME;
+import static com.example.weathertoday.MainActivity.APP_PREFERENCES_UNITS;
+
 public class OptionsFragment extends Fragment {
 
     private SwitchCompat themeSwitcher;
@@ -35,6 +42,8 @@ public class OptionsFragment extends Fragment {
     private ConstraintLayout languageLayout;
     private ConstraintLayout unitsLayout;
     private MaterialButton doneBtn;
+
+    private SharedPreferences settings;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -49,6 +58,8 @@ public class OptionsFragment extends Fragment {
         setupSpinners();
         setupThemeSwitcher();
 
+        settings = requireContext().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
+
         appThemeLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) appThemeLayout.getChildAt(2)));
         languageLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) languageLayout.getChildAt(2)));
         unitsLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) unitsLayout.getChildAt(2)));
@@ -58,8 +69,39 @@ public class OptionsFragment extends Fragment {
         themeSwitcher.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (!isChecked) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putInt(APP_PREFERENCES_THEME, 1);
+                editor.apply();
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putInt(APP_PREFERENCES_THEME, 0);
+                editor.apply();
+            }
+        });
+
+        unitsSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                SharedPreferences.Editor editor = settings.edit();
+                switch (position) {
+                    case 0:
+                        editor.putString(APP_PREFERENCES_UNITS, "metric");
+                        editor.apply();
+                        break;
+                    case 1:
+                        editor.putString(APP_PREFERENCES_UNITS, "imperial");
+                        editor.apply();
+                        break;
+                    case 2:
+                        editor.putString(APP_PREFERENCES_UNITS, "standard");
+                        editor.apply();
+                        break;
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
     }
