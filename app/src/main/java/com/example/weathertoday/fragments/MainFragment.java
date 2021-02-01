@@ -61,7 +61,6 @@ public class MainFragment extends Fragment {
     private NestedScrollView nestedScrollView;
     private ProgressBar progressBar;
 
-    private String currentWeatherPostfix = "\u00B0C"; // В будущем будет выбираться согласно пользовательким настройкам
     private final String WIKI_URL = "https://ru.wikipedia.org/wiki/";
     private static final String TAG = "MainFragment";
     private static final int LOADING_DELAY = 200;
@@ -82,21 +81,11 @@ public class MainFragment extends Fragment {
         findViews(view);
         setupMenu();
         setDayOfWeek();
-        setBackground();
 
         preferences = requireContext().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
         currentLocationValue = "Moscow";
 
-        if (savedInstanceState != null) {
-            WeatherDataContainer savedContainer = (WeatherDataContainer) savedInstanceState.getSerializable("Key");
-            if (savedContainer != null)
-                restoreData(savedContainer.getCurrentLocation(), savedContainer.getTemperature(), savedContainer.getStatus(), savedContainer.getMoistureValue(), savedContainer.getPressureValue(), savedContainer.getWindSpeedValue());
-            if (savedInstanceState.getSerializable("WeekWeather") != null)
-                initRecyclerView((ArrayList<WeatherRequest>) savedInstanceState.getSerializable("WeekWeather"));
-        } else {
-            WeatherGetter.getWeather(currentLocationValue, MainFragment.this, preferences.getString(APP_PREFERENCES_UNITS, "metric"));
-            new Handler().postDelayed(() -> WeatherGetter.getWeatherForecast(currentLocationValue, MainFragment.this, preferences.getString(APP_PREFERENCES_UNITS, "metric")), LOADING_DELAY);
-        }
+        setState(savedInstanceState);
 
         view.findViewById(R.id.locationInfoView).setOnClickListener(v -> openLocationInfo());
 
@@ -122,7 +111,7 @@ public class MainFragment extends Fragment {
             builder.setPositiveButton("OK", (dialog, which) -> {
                 String cityName = input.getText().toString();
                 WeatherGetter.getWeather(cityName, this, preferences.getString(APP_PREFERENCES_UNITS, "metric"));
-                WeatherGetter.getWeatherForecast(cityName, this, preferences.getString(APP_PREFERENCES_UNITS, "metrci"));
+                WeatherGetter.getWeatherForecast(cityName, this, preferences.getString(APP_PREFERENCES_UNITS, "metric"));
             });
 
             builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
@@ -147,9 +136,22 @@ public class MainFragment extends Fragment {
                 moisture.getText().toString(),
                 pressure.getText().toString(),
                 windSpeed.getText().toString());
-        outState.putSerializable("WeekWeather", daysAdapter.getItems());
+        if (!(daysAdapter == null)) outState.putSerializable("WeekWeather", daysAdapter.getItems());
         outState.putSerializable("Key", container);
         super.onSaveInstanceState(outState);
+    }
+
+    private void setState(@Nullable Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            WeatherDataContainer savedContainer = (WeatherDataContainer) savedInstanceState.getSerializable("Key");
+            if (savedContainer != null)
+                restoreData(savedContainer.getCurrentLocation(), savedContainer.getTemperature(), savedContainer.getStatus(), savedContainer.getMoistureValue(), savedContainer.getPressureValue(), savedContainer.getWindSpeedValue());
+            if (savedInstanceState.getSerializable("WeekWeather") != null)
+                initRecyclerView((ArrayList<WeatherRequest>) savedInstanceState.getSerializable("WeekWeather"));
+        } else {
+            WeatherGetter.getWeather(currentLocationValue, MainFragment.this, preferences.getString(APP_PREFERENCES_UNITS, "metric"));
+            new Handler().postDelayed(() -> WeatherGetter.getWeatherForecast(currentLocationValue, MainFragment.this, preferences.getString(APP_PREFERENCES_UNITS, "metric")), LOADING_DELAY);
+        }
     }
 
     private void setupMenu() {
@@ -189,19 +191,6 @@ public class MainFragment extends Fragment {
         dayOfWeek.setText(WeatherDays.getCurrentDayName());
     }
 
-    private void setBackground() {
-        int nightModeFlag = requireContext().getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
-
-        switch (nightModeFlag) {
-            case Configuration.UI_MODE_NIGHT_NO:
-                backgroundImage.setImageResource(R.drawable.default_image_day);
-                break;
-            case Configuration.UI_MODE_NIGHT_YES:
-                backgroundImage.setImageResource(R.drawable.default_image_night);
-                break;
-        }
-    }
-
     private void openLocationInfo() {
         String target = currentLocation.getText().toString();
         if (!target.equals("WeatherLocationText")) {
@@ -238,6 +227,6 @@ public class MainFragment extends Fragment {
     }
 
     public void showError() {
-        Toast.makeText(requireContext(), "This city does not exist!", Toast.LENGTH_LONG).show();
+        Toast.makeText(requireContext(), R.string.cannot_find, Toast.LENGTH_LONG).show();
     }
 }

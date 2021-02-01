@@ -46,6 +46,7 @@
     <string name="home">Home</string>
     <string name="exit">Exit?</string>
     <string name="select_units">Select units</string>
+    <string name="cannot_find">Can\'t find this city.</string>
 
     <string-array name="units_names">
         <item>Metric</item>

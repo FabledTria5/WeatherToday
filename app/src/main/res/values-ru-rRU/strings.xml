@@ -65,7 +65,7 @@
         <item>м/с</item>
         <item>миля/ч</item>
     </string-array>
-
+    <string name="cannot_find">Не удается найти город</string>
 
 
 </resources>
