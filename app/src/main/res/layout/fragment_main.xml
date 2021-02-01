@@ -2,10 +2,10 @@
 <androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mainScrollView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    tools:context=".fragments.MainFragment"
-    android:id="@+id/mainScrollView">
+    tools:context=".fragments.MainFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -14,10 +14,10 @@
 
         <ImageView
             android:id="@+id/backgroundView"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="350dp"
             android:scaleType="centerCrop"
-            android:src="@drawable/default_image_day"
+            android:src="@drawable/main_background"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -77,12 +77,12 @@
             android:layout_marginTop="20dp"
             android:layout_marginBottom="10dp"
             android:fontFamily="@font/balsamiqsans_bold"
+            android:shadowColor="@color/black"
+            android:shadowRadius="5"
             android:text="@string/temperature_text"
             android:textSize="40sp"
             android:textStyle="bold"
             android:theme="@style/mainPageText"
-            android:shadowColor="@color/black"
-            android:shadowRadius="5"
             app:layout_constraintBottom_toBottomOf="@+id/backgroundView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="@+id/backgroundView"

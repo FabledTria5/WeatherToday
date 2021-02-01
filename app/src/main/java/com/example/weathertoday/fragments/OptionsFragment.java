@@ -1,5 +1,7 @@
 package com.example.weathertoday.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.transition.AutoTransition;
@@ -8,14 +10,13 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.Spinner;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.ActionBar;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.SwitchCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
@@ -27,21 +28,22 @@ import com.example.weathertoday.containers.OptionsContainer;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
-import java.util.Objects;
+
+import static com.example.weathertoday.MainActivity.APP_PREFERENCES;
+import static com.example.weathertoday.MainActivity.APP_PREFERENCES_THEME;
+import static com.example.weathertoday.MainActivity.APP_PREFERENCES_UNITS;
 
 public class OptionsFragment extends Fragment {
 
     private SwitchCompat themeSwitcher;
     private Spinner languageSelector;
-    private Spinner temperatureUnitsSelector;
-    private Spinner pressureUnitsSelector;
-    private Spinner windSpeedUnitsSelector;
+    private Spinner unitsSelector;
     private ConstraintLayout appThemeLayout;
     private ConstraintLayout languageLayout;
-    private ConstraintLayout temperatureLayout;
-    private ConstraintLayout pressureLayout;
-    private ConstraintLayout windSpeedLayout;
+    private ConstraintLayout unitsLayout;
     private MaterialButton doneBtn;
+
+    private SharedPreferences settings;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -55,21 +57,51 @@ public class OptionsFragment extends Fragment {
         setupLayouts(view);
         setupSpinners();
         setupThemeSwitcher();
-        setupMenu();
+
+        settings = requireContext().getSharedPreferences(APP_PREFERENCES, Context.MODE_PRIVATE);
 
         appThemeLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) appThemeLayout.getChildAt(2)));
         languageLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) languageLayout.getChildAt(2)));
-        temperatureLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) temperatureLayout.getChildAt(2)));
-        pressureLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) pressureLayout.getChildAt(2)));
-        windSpeedLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) windSpeedLayout.getChildAt(2)));
+        unitsLayout.setOnClickListener(v -> openCloseExpandableLayout((ConstraintLayout) unitsLayout.getChildAt(2)));
 
         doneBtn.setOnClickListener(v -> getBack());
 
         themeSwitcher.setOnCheckedChangeListener((buttonView, isChecked) -> {
             if (!isChecked) {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putInt(APP_PREFERENCES_THEME, 1);
+                editor.apply();
             } else {
                 AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putInt(APP_PREFERENCES_THEME, 0);
+                editor.apply();
+            }
+        });
+
+        unitsSelector.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                SharedPreferences.Editor editor = settings.edit();
+                switch (position) {
+                    case 0:
+                        editor.putString(APP_PREFERENCES_UNITS, "metric");
+                        editor.apply();
+                        break;
+                    case 1:
+                        editor.putString(APP_PREFERENCES_UNITS, "imperial");
+                        editor.apply();
+                        break;
+                    case 2:
+                        editor.putString(APP_PREFERENCES_UNITS, "standard");
+                        editor.apply();
+                        break;
+                }
+            }
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
     }
@@ -85,26 +117,14 @@ public class OptionsFragment extends Fragment {
     private void findViews(View v) {
         themeSwitcher = v.findViewById(R.id.nightModeSwitchView);
         languageSelector = v.findViewById(R.id.selectLanguageView);
-        temperatureUnitsSelector = v.findViewById(R.id.selectTemperatureUnitsView);
-        pressureUnitsSelector = v.findViewById(R.id.selectPressureUnitsView);
-        windSpeedUnitsSelector = v.findViewById(R.id.selectWindSpeedView);
+        unitsSelector = v.findViewById(R.id.selectTemperatureUnitsView);
 
         appThemeLayout = v.findViewById(R.id.openAppTheme);
         languageLayout = v.findViewById(R.id.openSelectLanguage);
-        temperatureLayout = v.findViewById(R.id.openSelectTemperature);
-        pressureLayout = v.findViewById(R.id.openSelectPressure);
-        windSpeedLayout = v.findViewById(R.id.openSelectWindSpeed);
+        unitsLayout = v.findViewById(R.id.openSelectTemperature);
 
         doneBtn = v.findViewById(R.id.doneButtonView);
     }
-
-    private void setupMenu() {
-        setHasOptionsMenu(true);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayHomeAsUpEnabled(true);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setDisplayShowHomeEnabled(true);
-        Objects.requireNonNull(((AppCompatActivity) requireActivity()).getSupportActionBar()).setHomeAsUpIndicator(R.drawable.ic_baseline_arrow_back_24);
-    }
-
 
     private void setupLayouts(View v) {
         ArrayList<ConstraintLayout> list = OptionsContainer.getVisibleLayouts();
@@ -133,19 +153,13 @@ public class OptionsFragment extends Fragment {
     private void setupSpinners() {
         if (getContext() != null) {
             ArrayAdapter<String> languageAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item, getResources().getStringArray(R.array.languages));
-            ArrayAdapter<String> temperatureAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item, getResources().getStringArray(R.array.temperature_units));
-            ArrayAdapter<String> pressureAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item, getResources().getStringArray(R.array.pressure_units));
-            ArrayAdapter<String> windSpeedAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item, getResources().getStringArray(R.array.wind_speed_units));
+            ArrayAdapter<String> unitsAdapter = new ArrayAdapter<>(getContext(), R.layout.spinner_item, getResources().getStringArray(R.array.units_names));
 
             languageAdapter.setDropDownViewResource(R.layout.spinner_item);
-            temperatureAdapter.setDropDownViewResource(R.layout.spinner_item);
-            pressureAdapter.setDropDownViewResource(R.layout.spinner_item);
-            windSpeedAdapter.setDropDownViewResource(R.layout.spinner_item);
+            unitsAdapter.setDropDownViewResource(R.layout.spinner_item);
 
             languageSelector.setAdapter(languageAdapter);
-            temperatureUnitsSelector.setAdapter(temperatureAdapter);
-            pressureUnitsSelector.setAdapter(pressureAdapter);
-            windSpeedUnitsSelector.setAdapter(windSpeedAdapter);
+            unitsSelector.setAdapter(unitsAdapter);
         }
     }
 

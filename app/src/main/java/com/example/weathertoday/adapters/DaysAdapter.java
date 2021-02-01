@@ -12,9 +12,11 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.weathertoday.MySettings;
 import com.example.weathertoday.R;
 import com.example.weathertoday.WeatherDays;
 import com.example.weathertoday.network.model.WeatherRequest;
+import com.squareup.picasso.Picasso;
 
 import java.io.Serializable;
 import java.text.ParseException;
@@ -40,6 +42,9 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.DaysViewHolder
         private final TextView windSpeedDayValue;
         private final TextView date;
 
+        private final String ICON_URL_PREFIX = "http://openweathermap.org/img/wn/";
+        private final String ICON_URL_POSTFIX = "@2x.png";
+
         public DaysViewHolder(@NonNull View itemView) {
             super(itemView);
             hiddenLayout = itemView.findViewById(R.id.expandableDayView);
@@ -59,7 +64,7 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.DaysViewHolder
         public void bind(int position) {
            WeatherRequest day = days.get(position);
 
-           temperature.setText(String.format(Locale.ENGLISH, "%.1f" + "\u00B0C", day.getMain().getTemp()));
+           temperature.setText(String.format(Locale.ENGLISH, "%.1f" + MySettings.getTempPostfix(), day.getMain().getTemp()));
            pressureDayValue.setText(String.format(Locale.ENGLISH,"%d", day.getMain().getPressure()));
            windSpeedDayValue.setText(String.format(Locale.ENGLISH,"%.1f", day.getWind().getSpeed()));
            moistureDayValue.setText(String.format(Locale.ENGLISH,"%d", day.getMain().getHumidity()));
@@ -75,6 +80,9 @@ public class DaysAdapter extends RecyclerView.Adapter<DaysAdapter.DaysViewHolder
             }
 
             date.setText(day.getDt_txt());
+
+            String icon = day.getWeather()[0].getIcon();
+            Picasso.get().load(ICON_URL_PREFIX + icon + ICON_URL_POSTFIX).into(dayStatusIcon);
         }
 
         public void showHideDay() {

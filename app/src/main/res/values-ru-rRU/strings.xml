@@ -28,6 +28,27 @@
     <string name="option_fragment_name">Настройки</string>
     <string name="select_theme">Выберите тему</string>
     <string name="weather_icon_description">Иконка погоды</string>
+    <string name="history">История</string>
+    <string name="done">Готово</string>
+    <string name="open_in_browser">Открыть в браузере?</string>
+    <string name="open">Открыть</string>
+    <string name="developers">Разработчики</string>
+    <string name="choose_city">Пожалуйста, выберите город</string>
+    <string name="date_text">Дата</string>
+    <string name="weather_status_example">Солнечно</string>
+    <string name="this_app_developed_by">Приложение разработано:</string>
+    <string name="developer_name">Алексей Рогатин (FabledTria5)</string>
+    <string name="special_thanks_to">Благодарности:</string>
+    <string name="search">Поиск</string>
+    <string name="home">Главная</string>
+    <string name="exit">Выйти?</string>
+    <string name="select_units">Ед. измерения</string>
+
+    <string-array name="units_names">
+        <item>Метрические</item>
+        <item>Американские</item>
+        <item>Научные</item>
+    </string-array>
 
     <string-array name="languages">
         <item>Английский</item>
@@ -44,40 +65,7 @@
         <item>м/с</item>
         <item>миля/ч</item>
     </string-array>
+    <string name="cannot_find">Не удается найти город</string>
 
-    <string-array name="topCities">
-        <item>Нью-Йорк</item>
-        <item>Лос-Анджелес</item>
-        <item>Лондон</item>
-        <item>Париж</item>
-        <item>Москва</item>
-        <item>Пекин</item>
-        <item>Токио</item>
-        <item>Сидней</item>
-        <item>Дубай</item>
-        <item>Берлин</item>
-        <item>ASDF</item>
-    </string-array>
-
-    <string-array name="days_of_week">
-        <item>Воскресенье</item>
-        <item>Понедельник</item>
-        <item>Вторник</item>
-        <item>Среда</item>
-        <item>Четверг</item>
-        <item>Пятница</item>
-        <item>Суббота</item>
-    </string-array>
-    <string name="history">История</string>
-    <string name="done">Готово</string>
-    <string name="open_in_browser">Открыть в браузере?</string>
-    <string name="open">Открыть</string>
-    <string name="developers">Разработчики</string>
-    <string name="choose_city">Пожалуйста, выберите город</string>
-    <string name="date_text">Дата</string>
-    <string name="weather_status_example">Солнечно</string>
-    <string name="this_app_developed_by">Приложение разработано:</string>
-    <string name="developer_name">Алексей Рогатин (FabledTria5)</string>
-    <string name="special_thanks_to">Благодарности:</string>
 
 </resources>
